@@ -17,4 +17,5 @@ yarn.lock
 .env.test.local
 .env.production.local
 
+# sqlite files
 database.sqlite
