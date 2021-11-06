@@ -2,22 +2,15 @@ import axios from 'axios';
 import React, { ChangeEvent, FC, FormEvent, useCallback, useEffect, useState } from 'react';
 import { Button, Card, CardBody, CardHeader, Col, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 
-type TRegistrationInputForm = {
-  firstname: string;
-  lastname: string;
-  email: string;
+type TLoginInputForm = {
   username: string;
   password: string;
   type: ''|'member'|'trainer'|'admin';
-  firstLogin?: boolean;
 }
 
-const Index: FC = () => {
+const Login: FC = () => {
 
-  const [inputForm, setInputForm] = useState<TRegistrationInputForm>({
-    firstname: '',
-    lastname: '',
-    email: '',
+  const [inputForm, setInputForm] = useState<TLoginInputForm>({
     username: '',
     password: '',
     type: ''
@@ -34,10 +27,10 @@ const Index: FC = () => {
     event.preventDefault();
 
     try {
-      await axios.post('/api/auth/register', inputForm);
+      await axios.post('/api/auth/login', inputForm);
 
-      alert('Registration Complete');
-      location.href = '/login';
+      alert('Login Complete, redirecting...');
+      location.href = '/';
     } catch (error) {
       if (axios.isAxiosError(error)) {
         alert(error.response?.data.message);
@@ -66,34 +59,10 @@ const Index: FC = () => {
       <Col className="mt-5 mx-auto" md={6}>
         <Card>
           <CardHeader>
-            <h1>Register</h1>
+            <h1>Login</h1>
           </CardHeader>
           <CardBody>
             <Form onSubmit={onSubmitRegister}>
-              <FormGroup row>
-                <Col md={6}>
-
-                  <Input
-                    placeholder="First Name"
-                    onChange={onInputChange('firstname')}
-                    value={inputForm.firstname}
-                  />
-                </Col>
-                <Col md={6}>
-                  <Input
-                    placeholder="Last Name"
-                    onChange={onInputChange('lastname')}
-                    value={inputForm.lastname}
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup>
-                <Input
-                  placeholder="E-mail"
-                  onChange={onInputChange('email')}
-                  value={inputForm.email}
-                />
-              </FormGroup>
               <FormGroup>
                 <Input
                   placeholder="Username"
@@ -130,8 +99,8 @@ const Index: FC = () => {
               <FormGroup>
                 <div className="d-flex justify-content-between">
                   {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-                  <a href="/login">Login</a>
-                  <Button color="primary">Register</Button>
+                  <a href="/register">Register</a>
+                  <Button color="primary">Login</Button>
                 </div>
               </FormGroup>
             </Form>
@@ -142,4 +111,4 @@ const Index: FC = () => {
   );
 };
 
-export default Index;
+export default Login;
