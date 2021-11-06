@@ -9,8 +9,6 @@ import 'express-async-errors';
 
 require('dotenv').config();
 
-// import registerController from './helpers/controller';
-
 const app = express();
 const iPort = process.env.APP_PORT || 8000;
 

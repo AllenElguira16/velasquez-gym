@@ -18,11 +18,12 @@ export const registerUser = async (user: IUser) => {
   await userRepository.save(user);
 }
 
-export const loginUser = async ({username, password}: Pick<IUser, 'username'|'password'>) => {
+export const loginUser = async ({username, password, type}: Pick<IUser, 'username'|'password'|'type'>) => {
   const user = await userRepository.findOne({
     where: {
       username,
-      password
+      password,
+      type
     }
   });
 

@@ -16,13 +16,13 @@ declare module 'express-session' {
 export const Post: TController = async (request, response) => {
 
   const user = request.body as IUser;
-  const {username,password} = user;
+  const {username,password,type} = user;
 
-  if (!username.length || !password.length) {
+  if (!username.length || !password.length || !type.length) {
     throw new ResponseError(401, 'Form Inputs are Required');
   }
 
-  request.session.user = await loginUser(user); 
+  request.session.user = await loginUser(user);
 
   response.status(200).json({
     success: true,
