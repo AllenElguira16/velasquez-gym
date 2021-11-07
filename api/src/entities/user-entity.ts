@@ -1,9 +1,10 @@
-import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
+import { FitnessEntity } from './fitness-entity';
 
 @Entity({name: 'user'})
 export class UserEntity implements IUser {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column('text')
   firstname: string;
@@ -23,6 +24,7 @@ export class UserEntity implements IUser {
   @Column('text')
   type: IUser['type'];
 
-  @Column('boolean', { default: false })
-  firstLogin: boolean = false;
+  @OneToOne(() => FitnessEntity, fitnessEntity => fitnessEntity.id)
+  @JoinColumn({ name: 'fitness_id' })
+  fitness: FitnessEntity
 }

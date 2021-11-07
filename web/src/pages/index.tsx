@@ -5,9 +5,11 @@ const Index: FC = () => {
 
   const fetchAuthUser = useCallback(async () => {
     try {
-      const {data} = await axios.get('/api/auth');
+      const {data: {user}} = await axios.get('/api/auth');
   
-      console.log(data);
+      if (location.pathname !== `/${user.type}`) {
+        location.href = `/${user.type}`;
+      }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         location.href = '/login'
@@ -21,7 +23,7 @@ const Index: FC = () => {
 
   return (
     <>
-      Hello World!
+      Redirecting
     </>
   );
 };

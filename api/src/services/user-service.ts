@@ -1,6 +1,6 @@
 import { ResponseError } from "express-controller";
 import { getRepository } from "typeorm";
-import { UserEntity } from "~/entities/UserEntity";
+import { UserEntity } from "~/entities/user-entity";
 
 const userRepository = getRepository(UserEntity);
 
@@ -20,6 +20,7 @@ export const registerUser = async (user: IUser) => {
 
 export const loginUser = async ({username, password, type}: Pick<IUser, 'username'|'password'|'type'>) => {
   const user = await userRepository.findOne({
+    relations: ['fitness'],
     where: {
       username,
       password,
@@ -27,9 +28,9 @@ export const loginUser = async ({username, password, type}: Pick<IUser, 'usernam
     }
   });
 
-  if (!user) {
+  if (!user)
     throw new ResponseError(404, 'Incorrect Username or Password');
-  }
+  
 
   return user;
 }
