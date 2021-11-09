@@ -2,13 +2,12 @@ import axios from 'axios';
 import React, { FC } from 'react';
 import { Button, Collapse, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar as NavbarBase, NavbarBrand, NavbarText, NavItem, NavLink, UncontrolledDropdown } from 'reactstrap';
 
-const HomeNavbar: FC = () => {
+const AdminNavbar: FC = () => {
 
   const onClickLogout = async () => {
     await axios.delete('/api/auth');
     location.reload();
   }
-
 
   return (
     <NavbarBase color="light" expand="md" light className="rounded">
@@ -20,14 +19,24 @@ const HomeNavbar: FC = () => {
         <Nav
           className="me-auto"
           navbar
-        />
-          
+        >
+          <NavItem>
+            <NavLink href="/admin/fitness">
+              Fitness
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink href="/admin/users">
+              Users
+            </NavLink>
+          </NavItem>
+        </Nav>
         <NavbarText tag={Button} onClick={onClickLogout}>
           Logout
         </NavbarText>
       </Collapse>
-    </NavbarBase>  
+    </NavbarBase>
   );
 };
 
-export default HomeNavbar;
+export default AdminNavbar;

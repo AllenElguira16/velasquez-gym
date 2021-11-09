@@ -25,11 +25,11 @@ export const Get: TController = async (request, response) => {
  * 
  * @author Michael Allen Elguira <AllenElguira16@gmail.com>
  */
-export const Delete: TController = async (oRequest, oResponse) => {
+export const Delete: TController = async (request, response) => {
 
-  oResponse.clearCookie('access-token');
+  request.session.destroy(null);
 
-  oResponse.status(200).json({
+  response.status(200).json({
     success: true,
     status: 200
   });

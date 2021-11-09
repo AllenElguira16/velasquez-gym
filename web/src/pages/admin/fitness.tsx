@@ -1,19 +1,18 @@
 import axios from 'axios';
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { Card, CardBody, CardHeader, CardImg, CardImgOverlay, CardTitle, Col, Container } from 'reactstrap';
-import ChooseFitness from '../components/member/choose-fitness';
+import { Container, Card, CardBody, Table, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import AddFitness from '../../components/admin/add-fitness';
+import FitnessList from '../../components/admin/fitness-list';
+import AdminNavbar from '../../components/admin/navbar';
 
-import HomeNavbar from '../components/member/navbar';
-
-const Index: FC = () => {
+const Admin: FC = () => {
   const [authUser, setAuthUser] = useState<IUser>();
 
   const fetchAuthUser = useCallback(async () => {
     try {
       const {data: {user}} = await axios.get('/api/auth');
   
-      if (location.pathname !== `/${user.type}`) location.href = `/${user.type}`;
-      else setAuthUser(user);
+      setAuthUser(user);
       
     } catch (error) {
       if (axios.isAxiosError(error))
@@ -28,20 +27,18 @@ const Index: FC = () => {
   return (
     <>
       <Container className="mt-5">
-        <HomeNavbar />
+        <AdminNavbar />
 
         <Card className="mt-4">
-          <CardBody>
-            {/* if on first login */}
-            {(authUser && authUser.fitness === null) && (
-              <ChooseFitness />
-            )}
+          <CardBody style={{height: '32rem', overflowY: 'scroll'}}>
+            <AddFitness />
+            <FitnessList />
           </CardBody>
         </Card>
 
       </Container>
     </>
   );
-};
+}
 
-export default Index;
+export default Admin;

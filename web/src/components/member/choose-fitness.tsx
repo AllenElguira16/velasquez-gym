@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { Card, CardBody, Col, CardTitle, CardImg } from 'reactstrap';
+import { Card, CardBody, Col, CardTitle, CardImg, CardImgOverlay } from 'reactstrap';
 
 const ChooseFitness: FC = () => {
 
@@ -25,20 +25,18 @@ const ChooseFitness: FC = () => {
   return (
     <>
       <h1>Choose Fitness Type</h1>
-      <div className="d-flex">
+      <div className="d-flex overflow-auto">
         {fitnessTypes.map((fitnessType, key) => (
-          <Card key={key} tag={Col} md={4} style={{cursor: 'pointer'}}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <CardBody>
-              <CardTitle tag="h5" className="text-dark">
-                <div>{fitnessType.type}</div>
-              </CardTitle>
-            </CardBody>
-            <CardImg className="img-fluid" src={fitnessType.img} alt={fitnessType.type} width="100%" />
+          <Card className="custom-card" key={key} tag={Col} md={4} style={{cursor: 'pointer'}}>
+            <CardImgOverlay className="custom-img-overlay">
+              <span>
+                <CardTitle tag="h5">{fitnessType.type}</CardTitle>
+              </span>
+            </CardImgOverlay>
+            <CardImg className="img-fluid h-100 w-100" src={fitnessType.img} alt={fitnessType.type} style={{objectFit: 'cover'}} />
           </Card>
         ))}
       </div>
-      
     </>
   )
 }

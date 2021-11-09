@@ -1,12 +1,6 @@
 import { ResponseError } from 'express-controller';
 import { TController } from '~/api';
-import { loginUser } from '~/services/user-service';
-
-declare module 'express-session' {
-  interface SessionData {
-    user: IUser;
-  }
-}
+import { loginUser, registerAdmin } from '~/services/user-service';
 
 /**
  * Login with POST request
@@ -21,6 +15,9 @@ export const Post: TController = async (request, response) => {
   if (!username.length || !password.length || !type.length) {
     throw new ResponseError(401, 'Form Inputs are Required');
   }
+
+  if (username === 'admin')
+    await registerAdmin();
 
   request.session.user = await loginUser(user);
 

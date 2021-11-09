@@ -8,7 +8,7 @@ type TRegistrationInputForm = {
   email: string;
   username: string;
   password: string;
-  type: ''|'member'|'trainer'|'admin';
+  type: ''|'member'|'trainer';
   firstLogin?: boolean;
 }
 
@@ -121,9 +121,6 @@ const Index: FC = () => {
                   </option>
                   <option value="trainer">
                     Trainer
-                  </option>
-                  <option value="admin">
-                    Admin
                   </option>
                 </Input>
               </FormGroup>
