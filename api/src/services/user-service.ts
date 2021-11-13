@@ -55,5 +55,11 @@ export const loginUser = async ({username, password, type}: Pick<IUser, 'usernam
   if (!user)
     throw new ResponseError(404, 'Incorrect Username or Password');
 
-  return user;
+  return user.id;
+}
+
+export const getUserById = async (id: string) => {
+  return userRepository.findOne(id, {
+    relations: ['fitness']
+  });
 }

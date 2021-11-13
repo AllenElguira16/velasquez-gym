@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { Card, CardBody, CardHeader, CardImg, CardImgOverlay, CardTitle, Col, Container } from 'reactstrap';
+import Calendar from '../components/member/calendar';
 import ChooseFitness from '../components/member/choose-fitness';
 
 import HomeNavbar from '../components/member/navbar';
@@ -33,8 +34,10 @@ const Index: FC = () => {
         <Card className="mt-4">
           <CardBody>
             {/* if on first login */}
-            {(authUser && authUser.fitness === null) && (
+            {(authUser && authUser.fitness === null) ? (
               <ChooseFitness />
+            ) : (
+              <Calendar />
             )}
           </CardBody>
         </Card>

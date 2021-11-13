@@ -17,6 +17,6 @@ export type TMiddleware = (next: (oRequest: Request, oResponse: Response) => Pro
 
 declare module 'express-session' {
   interface SessionData {
-    user: IUser;
+    userId: string;
   }
 }

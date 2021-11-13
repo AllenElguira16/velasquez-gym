@@ -1,5 +1,6 @@
 import { ResponseError } from 'express-controller';
 import {TController} from '~/api';
+import { getUserById } from '~/services/user-service';
 
 /**
  * Login with GET request
@@ -7,16 +8,16 @@ import {TController} from '~/api';
  * @author Michael Allen Elguira <AllenElguira16@gmail.com>
  */
 export const Get: TController = async (request, response) => {
-  const {user} = request.session; 
+  const {userId} = request.session; 
 
-  if (!user) {
+  if (!userId) {
     throw new ResponseError(404, 'User not authenticated');
   }
 
   response.status(200).json({
     success: true,
     status: 200,
-    user
+    user: await getUserById(userId)
   });
 }
 

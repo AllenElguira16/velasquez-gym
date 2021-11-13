@@ -19,7 +19,7 @@ export const Post: TController = async (request, response) => {
   if (username === 'admin')
     await registerAdmin();
 
-  request.session.user = await loginUser(user);
+  request.session.userId = await loginUser(user);
 
   response.status(200).json({
     success: true,
