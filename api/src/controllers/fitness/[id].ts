@@ -1,5 +1,5 @@
 import { TController } from "~/api";
-import { deleteFitness } from "~/services/fitness-service";
+import { deleteFitness, updateFitness } from "~/services/fitness-service";
 
 /**
  * Login with GEt request
@@ -16,3 +16,18 @@ export const Delete: TController = async (request, response) => {
   });
 };
 
+/**
+ * Login with GEt request
+ * 
+ * @author Michael Allen Elguira <michael01@simplexi.com.ph>
+ */
+export const Put: TController = async (request, response) => {
+
+  await updateFitness(request.params.id, { virtualAssistance: request.body.virtualAssistance });
+
+  response.status(200).json({
+    success: true,
+    data: request.params,
+    status: 200
+  });
+};

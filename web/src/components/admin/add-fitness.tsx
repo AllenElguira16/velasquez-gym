@@ -9,7 +9,7 @@ const AddFitness = () => {
   const [isFitnessModalOpen, setFitnessModalOpen] = useState(false);
   const toggleModal = () => setFitnessModalOpen(!isFitnessModalOpen);
 
-  const [inputForm, setInputForm] = useState<Omit<IFitness,'id'>>({
+  const [inputForm, setInputForm] = useState<Omit<IFitness,'id'|'virtualAssistance'>>({
     type: '',
     img: ''
   });
@@ -62,7 +62,7 @@ const AddFitness = () => {
           <ModalBody>
             <FormGroup>
               <Input
-                placeholder="Username"
+                placeholder="Fitness Type"
                 onChange={onInputChange('type')}
                 value={inputForm.type}
               />

@@ -10,9 +10,9 @@ import { loginUser, registerAdmin } from '~/services/user-service';
 export const Post: TController = async (request, response) => {
 
   const user = request.body as IUser;
-  const {username,password,type} = user;
+  const {username,password} = user;
 
-  if (!username.length || !password.length || !type.length) {
+  if (!username.length || !password.length) {
     throw new ResponseError(401, 'Form Inputs are Required');
   }
 

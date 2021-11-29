@@ -15,7 +15,7 @@ body {
 body:before {
     content: "";
     position: absolute;
-    background: url('../img/background.jpg');
+    // background: url('../img/background.jpg');
     background-size: cover;
     z-index: -1; /* Keep the background behind the content */
     height: 20%; width: 20%; /* Using Glen Maddern's trick /via @mente */

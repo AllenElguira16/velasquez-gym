@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app';
 import axios from 'axios';;
 import { useEffect } from 'react';
+import 'react-quill/dist/quill.snow.css';
 import '../assets/css/index.scss';
 
 axios.defaults.baseURL = 'http://localhost:8000';

@@ -10,4 +10,7 @@ export class FitnessEntity implements IFitness {
 
   @Column('text', { nullable: true })
   img: string = null;
+
+  @Column('text', { nullable: true })
+  virtualAssistance: string = null;
 }

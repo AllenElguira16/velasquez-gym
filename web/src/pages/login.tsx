@@ -5,15 +5,13 @@ import { Button, Card, CardBody, CardHeader, Col, Container, Form, FormGroup, In
 type TLoginInputForm = {
   username: string;
   password: string;
-  type: ''|'member'|'trainer'|'admin';
 }
 
 const Login: FC = () => {
 
   const [inputForm, setInputForm] = useState<TLoginInputForm>({
     username: '',
-    password: '',
-    type: ''
+    password: ''
   });
 
   const onInputChange = (key: keyof IUser) => (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -76,25 +74,6 @@ const Login: FC = () => {
                   onChange={onInputChange('password')}
                   value={inputForm.password}
                 />
-              </FormGroup>
-              <FormGroup>
-                <Input
-                  name="select"
-                  type="select"
-                  onChange={onInputChange('type')}
-                  value={inputForm.type}
-                >
-                  <option value='' disabled>Select User Type</option>
-                  <option value="member">
-                    Member
-                  </option>
-                  <option value="trainer">
-                    Trainer
-                  </option>
-                  <option value="admin">
-                    Admin
-                  </option>
-                </Input>
               </FormGroup>
               <FormGroup>
                 <div className="d-flex justify-content-between">

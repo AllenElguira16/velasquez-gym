@@ -15,3 +15,12 @@ export const getFitness = async () => {
 export const deleteFitness = async (id: string) => {
   await fitnessRepository.delete(id);
 }
+
+export const updateFitness = async (id: string, newFitnessData: Partial<Omit<IFitness, 'id'>>) => {
+  const fitnessToUpdate = await fitnessRepository.findOne(id);
+
+  await fitnessRepository.save({
+    ...fitnessToUpdate,
+    ...newFitnessData
+  });
+}

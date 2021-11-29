@@ -1,5 +1,7 @@
-import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
+import { AttendanceEntity } from './attendance-entity';
 import { FitnessEntity } from './fitness-entity';
+import { MembershipEntity } from './membership-entity';
 
 @Entity({name: 'user'})
 export class UserEntity implements IUser {
@@ -24,7 +26,21 @@ export class UserEntity implements IUser {
   @Column('text')
   type: IUser['type'];
 
-  @OneToOne(() => FitnessEntity, fitnessEntity => fitnessEntity.id)
+  @OneToOne(() => FitnessEntity, fitnessEntity => fitnessEntity.id, {
+    onDelete: 'CASCADE'
+  })
   @JoinColumn({ name: 'fitness_id' })
-  fitness: FitnessEntity
+  fitness: FitnessEntity;
+
+  @OneToOne(() => MembershipEntity, membershipEntity => membershipEntity.user_id, {
+    onDelete: 'CASCADE'
+  })
+  @JoinColumn({ name: 'membership_id' })
+  membership: MembershipEntity;
+
+  @OneToMany(() => AttendanceEntity, attendanceEntity => attendanceEntity.user_id, {
+    onDelete: 'CASCADE'
+  })
+  // @JoinColumn()
+  attendances: AttendanceEntity[];
 }

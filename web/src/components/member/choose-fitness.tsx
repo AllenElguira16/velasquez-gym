@@ -33,11 +33,8 @@ const ChooseFitness: FC = () => {
     }
   }, []);
 
-  const updateFitness = (id: string) => async () => {
-    await axios.put(`/api/member/${id}`, {
-      ...authUser, 
-      fitness: id
-    });
+  const updateFitness = (fitness_id: string) => async () => {
+    await axios.put(`/api/user/fitness`, { fitness_id });
 
     location.reload();
   };

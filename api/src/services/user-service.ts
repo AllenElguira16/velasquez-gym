@@ -42,13 +42,12 @@ export const registerUser = async (user: Omit<IUser,'id'|'fitness'>) => {
   await userRepository.save(user);
 }
 
-export const loginUser = async ({username, password, type}: Pick<IUser, 'username'|'password'|'type'>) => {
+export const loginUser = async ({username, password}: Pick<IUser, 'username'|'password'>) => {
   const user = await userRepository.findOne({
     relations: ['fitness'],
     where: {
       username,
       password,
-      type
     }
   });
 
@@ -60,6 +59,16 @@ export const loginUser = async ({username, password, type}: Pick<IUser, 'usernam
 
 export const getUserById = async (id: string) => {
   return userRepository.findOne(id, {
-    relations: ['fitness']
+    relations: ['fitness', 'attendances', 'membership']
   });
 }
+
+export const updateUser = async (id: string, userData: Partial<IUser>) => {
+  const user = await userRepository.findOne(id);
+  
+  await userRepository.save({ 
+    ...user,
+    ...userData
+  });
+}
+

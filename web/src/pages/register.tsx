@@ -8,7 +8,6 @@ type TRegistrationInputForm = {
   email: string;
   username: string;
   password: string;
-  type: ''|'member'|'trainer';
   firstLogin?: boolean;
 }
 
@@ -19,8 +18,7 @@ const Index: FC = () => {
     lastname: '',
     email: '',
     username: '',
-    password: '',
-    type: ''
+    password: ''
   });
 
   const onInputChange = (key: keyof IUser) => (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -107,22 +105,6 @@ const Index: FC = () => {
                   onChange={onInputChange('password')}
                   value={inputForm.password}
                 />
-              </FormGroup>
-              <FormGroup>
-                <Input
-                  name="select"
-                  type="select"
-                  onChange={onInputChange('type')}
-                  value={inputForm.type}
-                >
-                  <option value='' disabled>Select User Type</option>
-                  <option value="member">
-                    Member
-                  </option>
-                  <option value="trainer">
-                    Trainer
-                  </option>
-                </Input>
               </FormGroup>
               <FormGroup>
                 <div className="d-flex justify-content-between">

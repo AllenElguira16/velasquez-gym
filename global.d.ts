@@ -6,12 +6,28 @@ interface IUser {
   email: string;
   username: string;
   password: string;
-  type: 'member'|'trainer'|'admin';
+  type: 'member'|'admin';
   fitness: IFitness;
+  attendances?: IAttendance[]
 }
 
 interface IFitness {
   id: string;
   type: string;
   img: string;
+  virtualAssistance?: string;
+}
+
+interface IMembership {
+  id: string;
+  user_id: string;
+  paid: boolean;
+}
+
+interface IAttendance {
+  id: string;
+  user_id: string;
+  checkIn: boolean;
+  checkOut: boolean;
+  date: string;
 }
