@@ -19,3 +19,4 @@ yarn.lock
 
 # sqlite files
 database.sqlite
+sessions
