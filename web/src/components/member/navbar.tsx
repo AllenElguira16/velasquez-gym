@@ -1,58 +1,44 @@
-import React, { FC } from 'react';
-import { Collapse, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar as NavbarBase, NavbarBrand, NavbarText, NavItem, NavLink, UncontrolledDropdown } from 'reactstrap';
+import axios from 'axios';
+import React, { FC, useState } from 'react';
+import { Button, Collapse, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar as NavbarBase, NavbarBrand, NavbarText, NavbarToggler, NavItem, NavLink, UncontrolledDropdown } from 'reactstrap';
+import VirtualAssistanceModal from '../../components/member/virtual-assistant';
 
-const Navbar: FC = () => {
+type TProps = {
+  user?: IUser;
+}
+
+const HomeNavbar: FC<TProps> = ({ user }) => {
+  const [isNavbarOpen, setNavbarOpen] = useState(false);
+  const [modal, setModal] = useState(false);
+
+  const onClickLogout = async () => {
+    await axios.delete('/api/auth');
+    location.reload();
+  }
+
+
   return (
-    <NavbarBase color="light" expand="md" light className="rounded">
-      <NavbarBrand>
-        Velasquez Gym
-      </NavbarBrand>
-
-      <Collapse>
-        <Nav
-          className="me-auto"
-          navbar
-        >
-          <NavItem>
-            <NavLink href="/components/">
-              Components
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="https://github.com/reactstrap/reactstrap">
-              GitHub
-            </NavLink>
-          </NavItem>
-          <UncontrolledDropdown
-            inNavbar
-            nav
-          >
-            <DropdownToggle
-              caret
-              nav
-            >
-              Options
-            </DropdownToggle>
-            <DropdownMenu right>
-              <DropdownItem>
-                Option 1
-              </DropdownItem>
-              <DropdownItem>
-                Option 2
-              </DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem>
-                Reset
-              </DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
-        </Nav>
-        <NavbarText>
-          Simple Text
-        </NavbarText>
-      </Collapse>
-    </NavbarBase>  
+    <>
+      <NavbarBase dark color="primary" expand="sm" className="rounded">
+        <NavbarBrand>
+          Velasquez Gym
+        </NavbarBrand>
+        <NavbarToggler onClick={() => setNavbarOpen(!isNavbarOpen)}/>
+        <Collapse isOpen={isNavbarOpen} navbar>
+          <Nav
+            className="me-auto"
+            navbar
+          />
+            
+          <div className="d-flex flex-sm-row flex-column gap-sm-4 gap-2">
+            {user?.fitness?.virtualAssistance && (<Button className="flex-1" onClick={() => setModal(!modal)}>Virtual Assistance</Button>)}
+            <Button onClick={onClickLogout}>Logout</Button>
+          </div>
+        </Collapse>
+      </NavbarBase>
+      {(user && user.fitness) &&(<VirtualAssistanceModal fitness={user.fitness} isModalOpen={modal} toggleModal={() => setModal(!modal)} />)}
+    </>
   );
 };
 
-export default Navbar;
+export default HomeNavbar;

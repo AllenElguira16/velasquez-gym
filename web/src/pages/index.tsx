@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React, { FC, useCallback, useEffect } from 'react';
+import { Container, Card, CardBody } from 'reactstrap';
+import AdminNavbar from '../components/admin/navbar';
 
 const Index: FC = () => {
 
@@ -8,12 +10,11 @@ const Index: FC = () => {
       const {data: {user}} = await axios.get('/api/auth');
   
       if (location.pathname !== `/${user.type}`) {
-        location.href = `/${user.type}`;
+        if (user.type === 'admin') location.href = `/admin/fitness`
+        else location.href = `/${user.type}`;
       }
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        location.href = '/login'
-      }
+      if (axios.isAxiosError(error)) location.href = '/login'
     }
   }, []);
 
@@ -23,7 +24,16 @@ const Index: FC = () => {
 
   return (
     <>
-      Redirecting
+      <Container className="mt-5">
+        <AdminNavbar />
+
+        <Card className="mt-4">
+          <CardBody>
+            Redirecting
+          </CardBody>
+        </Card>
+
+      </Container>
     </>
   );
 };

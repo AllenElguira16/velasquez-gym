@@ -14,3 +14,9 @@ export type TController = (oRequest: Request, oResponse: Response, oNext: NextFu
  * Types for Middleware function
  */
 export type TMiddleware = (next: (oRequest: Request, oResponse: Response) => Promise<void> | void) => TController
+
+declare module 'express-session' {
+  interface SessionData {
+    userId: string;
+  }
+}
