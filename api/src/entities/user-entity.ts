@@ -1,4 +1,4 @@
-import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
 import { AttendanceEntity } from './attendance-entity';
 import { FitnessEntity } from './fitness-entity';
 import { MembershipEntity } from './membership-entity';
@@ -26,7 +26,7 @@ export class UserEntity implements IUser {
   @Column('text')
   type: IUser['type'];
 
-  @OneToOne(() => FitnessEntity, fitnessEntity => fitnessEntity.id, {
+  @ManyToOne(() => FitnessEntity, fitnessEntity => fitnessEntity.id, {
     onDelete: 'CASCADE'
   })
   @JoinColumn({ name: 'fitness_id' })

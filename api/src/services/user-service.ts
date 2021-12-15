@@ -57,6 +57,12 @@ export const loginUser = async ({username, password}: Pick<IUser, 'username'|'pa
   return user.id;
 }
 
+export const getUsers = async () => {
+  return userRepository.find({
+    relations: ['fitness', 'attendances', 'membership']
+  });
+}
+
 export const getUserById = async (id: string) => {
   return userRepository.findOne(id, {
     relations: ['fitness', 'attendances', 'membership']
@@ -71,4 +77,5 @@ export const updateUser = async (id: string, userData: Partial<IUser>) => {
     ...userData
   });
 }
+
 

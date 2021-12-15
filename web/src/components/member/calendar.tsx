@@ -2,11 +2,15 @@ import axios from 'axios';
 import moment, { Moment } from 'moment';
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import { Button } from 'reactstrap';
+import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ReactDOM from 'react-dom';
 
 const Calendar = () => {
   const [_, forceUpdate] = useReducer((x) => x + 1, 0);
   const [attendances, setAttendances] = useState<IAttendance[]>([]);
   const [currentMoment, setCurrentMoment] = useState(moment());
+  const bodyElement = typeof document !== 'undefined' && document.querySelector('body');
   
   const checkIn = async () => {
     try {
@@ -83,7 +87,8 @@ const Calendar = () => {
   }
   
   const dateCssClass = (day: Moment) => {
-    const isToday = day.format('MMMM') === currentMoment.format('MMMM') && day.format('D') === currentMoment.format('D');
+    
+    const isToday = day.format('MMMM') === moment().format('MMMM') && day.format('D') === moment().format('D');
     let css = 'text-muted';
 
     if (day.format('dddd') === 'Sunday') {
@@ -95,32 +100,64 @@ const Calendar = () => {
 
   return (
     <div className="d-flex flex-column gap-2">
-      <header className="d-flex justify-content-between">
-        <Button color="light" onClick={prevMonth}>Prev</Button>
-        <h1>{currentMoment.format('MMMM').toString()} - {currentMoment.format('YYYY').toString()}</h1>
-        <Button color="light" onClick={nextMonth}>Next</Button>
+      <header className="d-flex  justify-content-between">        
+        <Button className="d-none d-sm-block btn-sm" color="primary" onClick={checkIn}>Check-in</Button>
+        <div className="d-flex justify-content-between align-items-center mx-auto">
+          <FontAwesomeIcon style={{cursor: 'pointer'}} onClick={prevMonth} icon={faAngleLeft} size="2x" />
+          <div className="text-center lh-1">
+            <h2 className="m-0 mx-sm-4 mx-1">{currentMoment.format('MMMM').toString()}</h2>
+            <small>{currentMoment.format('YYYY').toString()}</small>
+          </div>
+          <FontAwesomeIcon style={{cursor: 'pointer'}} onClick={nextMonth} icon={faAngleRight} size="2x" />
+        </div>
+        <Button className="d-none d-sm-block btn-sm" color="primary" onClick={checkOut}>Check-out</Button>
       </header>
       <div>
         {calendar.map((week, i) => (
           <div className="d-flex" key={i}>
             {week.days.map((day, i) => (
-              <span className={`col border ${dateCssClass(day)} position-relative`} style={{height: '4.25rem'}} key={i}>
-                {day.format('D')}
+              <span 
+                className={`position-relative col weekdays border ${dateCssClass(day)} `} 
+                key={i}
+              >
+                <div>{day.format('D')}</div>
                 <div className="text-dark" style={{lineHeight: 1}}>
-                  {isCheckedIn(day.format('YYYY-MM-DD')) && (<div>Checked-in</div>)}
-                  {isCheckedOut(day.format('YYYY-MM-DD')) && (<div>Checked-out</div>)}
+                  {isCheckedIn(day.format('YYYY-MM-DD')) && (<div>in</div>)}
+                  {isCheckedOut(day.format('YYYY-MM-DD')) && (<div>out</div>)}
                 </div>
               </span>
             ))}
           </div>
         ))}
       </div>
-      <footer>
+      { (typeof window !== 'undefined' && bodyElement) && ReactDOM.createPortal(
+        <>
+          <div className="position-absolute" style={{bottom: '0.75rem', left: '0.75rem', right: '0.75rem'}}>
+            <div className="d-flex justify-content-between">
+              <Button 
+                className="d-sm-none btn-sm rounded-circle" 
+                style={{height: 90, width: 90}} 
+                color="primary"
+                onClick={checkIn}
+              >
+                  Check-in
+              </Button>
+              <Button 
+                className="d-sm-none btn-sm rounded-circle" 
+                style={{height: 90, width: 90}} 
+                color="primary"
+                onClick={checkOut}
+              >
+                Check-out
+              </Button>
+            </div>
+          </div>
+        </>
+      , bodyElement) }
+      {/* <footer>
         <div className="d-flex gap-4 align-items-center">
-          <Button color="primary" onClick={checkIn}>Check-in</Button>
-          <Button color="primary" onClick={checkOut}>Check-out</Button>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 };

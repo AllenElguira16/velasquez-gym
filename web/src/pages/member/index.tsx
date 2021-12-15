@@ -28,7 +28,7 @@ const Index: FC = () => {
   }, [fetchAuthUser]);
 
   return (
-    <div className="d-flex vh-100">
+    <div className="d-flex mt-1">
       <Container className="my-auto">
         {authUser && (<HomeNavbar user={authUser} />)}
 

@@ -80,17 +80,18 @@ const Payment = () => {
   }
 
   return (
-    <Container className="mt-5">
-      <HomeNavbar />
+    <div className="d-flex vh-100">
+      <Container className="my-auto">
+        <HomeNavbar />
 
-      <Card className="mt-4 p-2">
-        <h2>Membership Payment</h2>
+        <Card className="mt-4 p-2">
+          <h2>Membership Payment</h2>
 
-        <p>To access any service, kindly proceed to payment through the PayMaya</p>
-        <Button color="primary" onClick={submitPayment}>Proceed to payment</Button>
-      </Card>
-
-    </Container>
+          <p>To access any service, kindly proceed to payment through the PayMaya</p>
+          <Button className="mt-5" color="primary" onClick={submitPayment}>Proceed to payment</Button>
+        </Card>
+      </Container>
+    </div>
   );
 };
 

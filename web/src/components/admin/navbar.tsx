@@ -1,8 +1,9 @@
 import axios from 'axios';
-import React, { FC } from 'react';
-import { Button, Collapse, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar as NavbarBase, NavbarBrand, NavbarText, NavItem, NavLink, UncontrolledDropdown } from 'reactstrap';
+import React, { FC, useState } from 'react';
+import { Button, Collapse, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar as NavbarBase, NavbarBrand, NavbarText, NavbarToggler, NavItem, NavLink, UncontrolledDropdown } from 'reactstrap';
 
 const AdminNavbar: FC = () => {
+  const [isNavbarOpen, setNavbarOpen] = useState(false);
 
   const onClickLogout = async () => {
     await axios.delete('/api/auth');
@@ -10,16 +11,19 @@ const AdminNavbar: FC = () => {
   }
 
   return (
-    <NavbarBase color="light" expand="md" light className="rounded">
+    <NavbarBase 
+      className="rounded" 
+      expand="md" 
+      color="light" 
+      full
+      light 
+    >
       <NavbarBrand>
         Velasquez Gym
       </NavbarBrand>
-
-      <Collapse navbar>
-        <Nav
-          className="me-auto"
-          navbar
-        >
+      <NavbarToggler onClick={() => setNavbarOpen(!isNavbarOpen)}/>
+      <Collapse isOpen={isNavbarOpen} navbar>
+        <Nav className="me-auto flex-grow-1" navbar>
           <NavItem>
             <NavLink href="/admin/fitness">
               Fitness
@@ -30,10 +34,12 @@ const AdminNavbar: FC = () => {
               Users
             </NavLink>
           </NavItem>
+          <NavItem className="ms-sm-auto">
+            <NavbarText tag={Button} onClick={onClickLogout}>
+              Logout
+            </NavbarText>
+          </NavItem>
         </Nav>
-        <NavbarText tag={Button} onClick={onClickLogout}>
-          Logout
-        </NavbarText>
       </Collapse>
     </NavbarBase>
   );

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { FC, useState } from 'react';
-import { Button, Collapse, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar as NavbarBase, NavbarBrand, NavbarText, NavItem, NavLink, UncontrolledDropdown } from 'reactstrap';
+import { Button, Collapse, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar as NavbarBase, NavbarBrand, NavbarText, NavbarToggler, NavItem, NavLink, UncontrolledDropdown } from 'reactstrap';
 import VirtualAssistanceModal from '../../components/member/virtual-assistant';
 
 type TProps = {
@@ -8,6 +8,7 @@ type TProps = {
 }
 
 const HomeNavbar: FC<TProps> = ({ user }) => {
+  const [isNavbarOpen, setNavbarOpen] = useState(false);
   const [modal, setModal] = useState(false);
 
   const onClickLogout = async () => {
@@ -18,19 +19,19 @@ const HomeNavbar: FC<TProps> = ({ user }) => {
 
   return (
     <>
-      <NavbarBase color="primary" expand="md" className="rounded">
+      <NavbarBase dark color="primary" expand="sm" className="rounded">
         <NavbarBrand>
           Velasquez Gym
         </NavbarBrand>
-
-        <Collapse navbar>
+        <NavbarToggler onClick={() => setNavbarOpen(!isNavbarOpen)}/>
+        <Collapse isOpen={isNavbarOpen} navbar>
           <Nav
             className="me-auto"
             navbar
           />
             
-          <div className="d-flex gap-4">
-            {user?.fitness?.virtualAssistance && (<Button onClick={() => setModal(!modal)}>Virtual Assistance</Button>)}
+          <div className="d-flex flex-sm-row flex-column gap-sm-4 gap-2">
+            {user?.fitness?.virtualAssistance && (<Button className="flex-1" onClick={() => setModal(!modal)}>Virtual Assistance</Button>)}
             <Button onClick={onClickLogout}>Logout</Button>
           </div>
         </Collapse>

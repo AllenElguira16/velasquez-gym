@@ -2,9 +2,11 @@ import React, { ChangeEvent, MouseEventHandler, useCallback, useEffect, useState
 import { Button, Table } from 'reactstrap';
 import axios from 'axios';
 import VirtualAssistance from './virtual-assistant';
+import Preview from './preview';
 
 const FitnessList = () => {
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isVirtualOpen, setVirtualOpen] = useState(false);
+  const [isPreviewOpen, setPreviewOpen] = useState(false);
   const [fitnessTypes, setFitnessTypes] = useState<IFitness[]>([]);
   
   const fetchFitnessTypes = useCallback(async () => {
@@ -26,9 +28,8 @@ const FitnessList = () => {
     location.reload();
   }
 
-  const toggleModal = () => setModalOpen(!isModalOpen);
-
-
+  const toggleVirtual = () => setVirtualOpen(!isVirtualOpen);
+  const togglePreview = () => setPreviewOpen(!isPreviewOpen);
 
   useEffect(() => {
     fetchFitnessTypes();
@@ -39,22 +40,23 @@ const FitnessList = () => {
       <Table>
         <thead>
           <tr>
-            <th>Fitness Type</th>
-            <th>Image</th>
-            <th>Actions</th>
+            <th style={{width: '20'}}>Fitness Type</th>
+            <th style={{width: '40'}}>Image</th>
+            <th style={{width: '20'}}>Actions</th>
           </tr>
         </thead>
         <tbody>
           {fitnessTypes.length > 0 && fitnessTypes.map(fitnessType => (
             <tr key={fitnessType.id}>
               <td className="w-25">{fitnessType.type}</td>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <td className="w-25"><img className="img-fluid" src={fitnessType.img} alt={fitnessType.type} /></td>
+              <td className="w-50">
+                <Preview toggleModal={togglePreview} isOpen={isPreviewOpen} fitness={fitnessType} />
+              </td>
               <td>
                 <Button color="danger" onClick={deleteFitness(fitnessType.id)}>Delete</Button>
               </td>
-              <td>
-                <VirtualAssistance toggleModal={toggleModal} isModalOpen={isModalOpen} fitness={fitnessType} />
+              <td className="w-25">
+                <VirtualAssistance toggleModal={toggleVirtual} isOpen={isVirtualOpen} fitness={fitnessType} />
               </td>
             </tr>
           ))}

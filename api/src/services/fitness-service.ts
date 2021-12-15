@@ -12,6 +12,10 @@ export const getFitness = async () => {
   return fitnessRepository.find();
 }
 
+export const getFitnessById = (fitnessId: IFitness['id']) => {
+  return fitnessRepository.findOne(fitnessId);
+}
+
 export const deleteFitness = async (id: string) => {
   await fitnessRepository.delete(id);
 }

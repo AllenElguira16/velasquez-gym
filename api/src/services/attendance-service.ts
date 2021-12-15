@@ -30,6 +30,10 @@ export const checkOut = async (userId: string) => {
     throw new ResponseError(400, 'Check-in First');
   }
 
+  if (attendance.checkOut) {
+    throw new ResponseError(400, 'Already Checked-out');
+  }
+
   attendance.checkOut = true;
 
   await attendanceEntity.save(attendance);

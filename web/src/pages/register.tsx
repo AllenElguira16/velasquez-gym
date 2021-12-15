@@ -60,64 +60,67 @@ const Index: FC = () => {
   }, [fetchAuthUser]);
 
   return (
-    <Container>
-      <Col className="mt-5 mx-auto" md={6}>
-        <Card>
-          <CardHeader>
-            <h1>Register</h1>
-          </CardHeader>
-          <CardBody>
-            <Form onSubmit={onSubmitRegister}>
-              <FormGroup row>
-                <Col md={6}>
+    <div className="d-flex vh-100">
+      <Container className="my-auto">
+        <Col className="mx-auto" md={6}>
+          <Card>
+            <CardHeader>
+              <h1>Register</h1>
+            </CardHeader>
+            <CardBody>
+              <Form onSubmit={onSubmitRegister}>
+                <FormGroup row>
+                  <Col md={6}>
 
+                    <Input
+                      placeholder="First Name"
+                      onChange={onInputChange('firstname')}
+                      value={inputForm.firstname}
+                    />
+                  </Col>
+                  <Col md={6}>
+                    <Input
+                      placeholder="Last Name"
+                      onChange={onInputChange('lastname')}
+                      value={inputForm.lastname}
+                    />
+                  </Col>
+                </FormGroup>
+                <FormGroup>
                   <Input
-                    placeholder="First Name"
-                    onChange={onInputChange('firstname')}
-                    value={inputForm.firstname}
+                    placeholder="E-mail"
+                    onChange={onInputChange('email')}
+                    value={inputForm.email}
                   />
-                </Col>
-                <Col md={6}>
+                </FormGroup>
+                <FormGroup>
                   <Input
-                    placeholder="Last Name"
-                    onChange={onInputChange('lastname')}
-                    value={inputForm.lastname}
+                    placeholder="Username"
+                    onChange={onInputChange('username')}
+                    value={inputForm.username}
                   />
-                </Col>
-              </FormGroup>
-              <FormGroup>
-                <Input
-                  placeholder="E-mail"
-                  onChange={onInputChange('email')}
-                  value={inputForm.email}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Input
-                  placeholder="Username"
-                  onChange={onInputChange('username')}
-                  value={inputForm.username}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Input
-                  placeholder="Password"
-                  onChange={onInputChange('password')}
-                  value={inputForm.password}
-                />
-              </FormGroup>
-              <FormGroup>
-                <div className="d-flex justify-content-between">
-                  {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-                  <a href="/login">Login</a>
-                  <Button color="primary">Register</Button>
-                </div>
-              </FormGroup>
-            </Form>
-          </CardBody>
-        </Card>
-      </Col>
-    </Container>
+                </FormGroup>
+                <FormGroup>
+                  <Input
+                    type="password"
+                    placeholder="Password"
+                    onChange={onInputChange('password')}
+                    value={inputForm.password}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <div className="d-flex justify-content-between">
+                    {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+                    <a href="/login">Login</a>
+                    <Button color="primary">Register</Button>
+                  </div>
+                </FormGroup>
+              </Form>
+            </CardBody>
+          </Card>
+        </Col>
+      </Container>
+    </div>
   );
 };
 

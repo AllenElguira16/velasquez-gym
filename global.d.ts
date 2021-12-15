@@ -9,6 +9,7 @@ interface IUser {
   type: 'member'|'admin';
   fitness: IFitness;
   attendances?: IAttendance[]
+  membership?: IMembership;
 }
 
 interface IFitness {

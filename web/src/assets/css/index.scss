@@ -2,6 +2,8 @@
 @import "~bootstrap/scss/bootstrap";
 @import "./bootswatch";
 
+@import "~react-quill/dist/quill.bubble.css";
+
 body, html {
     height: 100%;
 }
@@ -41,3 +43,12 @@ body:before {
     }
 }
 
+.weekdays {
+    height: 4rem;
+}
+
+@include media-breakpoint-down(sm) { 
+    // .weekdays {
+    //     height: 2rem;
+    // }
+}
