@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { GetServerSideProps } from 'next';
 import React, { ChangeEvent, FC, FormEvent, useCallback, useEffect, useState } from 'react';
 import { Button, Card, CardBody, CardHeader, Col, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 
@@ -42,23 +43,7 @@ const Index: FC = () => {
       }
     }
   }
-
-  const fetchAuthUser = useCallback(async () => {
-    try {
-      await axios.get('/api/auth');
   
-      location.href = '/';
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log(error);
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchAuthUser();
-  }, [fetchAuthUser]);
-
   return (
     <div className="d-flex vh-100">
       <Container className="my-auto">
@@ -123,5 +108,31 @@ const Index: FC = () => {
     </div>
   );
 };
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  try {
+    let destination = '';
+    const {data: {user}} = await axios.get('http://localhost:8000/api/auth', {
+      withCredentials: true,
+      headers: req.headers
+    });
+
+    if (req.url !== `/${user.type}`) {
+      if (user.type === 'admin') destination = `/admin/fitness`
+      else destination = `/${user.type}`;
+    }
+
+    res.writeHead(302, { // or 301
+      Location: destination,
+    });
+    res.end();
+  } catch (error) {
+    if (axios.isAxiosError(error)) {}
+  }
+
+  return {
+    props: {}
+  }
+}
 
 export default Index;

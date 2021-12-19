@@ -47,8 +47,17 @@ body:before {
     height: 4rem;
 }
 
-@include media-breakpoint-down(sm) { 
-    // .weekdays {
-    //     height: 2rem;
-    // }
+.ql-formats .ql-picker .ql-picker-label::before,
+.ql-formats .ql-picker .ql-picker-label svg polygon {
+    color: #FFF!important;
+}
+
+.ql-formats button .ql-stroke,
+.ql-formats .ql-picker-label .ql-stroke {
+    stroke: #FFF!important;
+}
+
+.ql-formats button .ql-fill,
+.ql-formats .ql-picker-label .ql-fill {
+    fill: #FFF!important;
 }

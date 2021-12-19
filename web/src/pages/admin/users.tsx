@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { GetServerSideProps } from 'next';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { Container, Card, CardBody, Table, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import AddFitness from '../../components/admin/add-fitness';
@@ -7,24 +8,6 @@ import AdminNavbar from '../../components/admin/navbar';
 import UserList from '../../components/admin/user-list';
 
 const Admin: FC = () => {
-  const [authUser, setAuthUser] = useState<IUser>();
-
-  const fetchAuthUser = useCallback(async () => {
-    try {
-      const {data: {user}} = await axios.get('/api/auth');
-  
-      setAuthUser(user);
-      
-    } catch (error) {
-      if (axios.isAxiosError(error))
-        location.href = '/login';
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchAuthUser();
-  }, [fetchAuthUser]);
-
   return (
     <div className="d-flex vh-100">
       <Container className="my-auto">
@@ -40,6 +23,28 @@ const Admin: FC = () => {
       </Container>
     </div>
   );
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  try {
+    await axios.get('http://localhost:8000/api/auth', {
+      withCredentials: true,
+      headers: req.headers
+    });
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/'
+        }
+      }
+    }
+  } finally {
+    return {
+      props: {}
+    }
+  }
 }
 
 export default Admin;

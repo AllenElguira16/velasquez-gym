@@ -6,26 +6,6 @@ import paymaya from 'paymaya-js-sdk';
 import HomeNavbar from '../../../components/member/navbar';
 
 const Payment = () => {
-  // const [authUser, setAuthUser] = useState<IUser>();
-
-  const fetchAuthUser = useCallback(async () => {
-    try {
-      const {data: {user}} = await axios.get('/api/auth');
-  
-      if (location.pathname !== `/${user.type}`) location.href = `/${user.type}`;
-      else if (user.membership === null) location.href = '/member/payment';
-      // else setAuthUser(user);
-      
-    } catch (error) {
-      if (axios.isAxiosError(error))
-        location.href = '/login';
-    }
-  }, []);
-
-  // useEffect(() => {
-  //   fetchAuthUser();
-  // }, [fetchAuthUser]);
-
   const referenceId = Math.floor(100000000 + Math.random() * 900000000);
   const submitPayment = async () => {
     paymaya.init('pk-Z0OSzLvIcOI2UIvDhdTGVVfRSSeiGStnceqwUE7n0Ah', true);

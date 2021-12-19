@@ -5,7 +5,6 @@ import VirtualAssistance from './virtual-assistant';
 import Preview from './preview';
 
 const FitnessList = () => {
-  const [isVirtualOpen, setVirtualOpen] = useState(false);
   const [isPreviewOpen, setPreviewOpen] = useState(false);
   const [fitnessTypes, setFitnessTypes] = useState<IFitness[]>([]);
   
@@ -28,7 +27,6 @@ const FitnessList = () => {
     location.reload();
   }
 
-  const toggleVirtual = () => setVirtualOpen(!isVirtualOpen);
   const togglePreview = () => setPreviewOpen(!isPreviewOpen);
 
   useEffect(() => {
@@ -56,7 +54,7 @@ const FitnessList = () => {
                 <Button color="danger" onClick={deleteFitness(fitnessType.id)}>Delete</Button>
               </td>
               <td className="w-25">
-                <VirtualAssistance toggleModal={toggleVirtual} isOpen={isVirtualOpen} fitness={fitnessType} />
+                <VirtualAssistance fitness={fitnessType} />
               </td>
             </tr>
           ))}

@@ -7,11 +7,16 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 type TProps = {
   fitness: IFitness;
-  toggleModal: () => void;
-  isOpen: boolean;
+  // toggleModal: () => void;
+  // isOpen: boolean;
 }
 
-const VirtualAssistance: FC<TProps> = ({ fitness, isOpen: isModalOpen, toggleModal }) => {
+const VirtualAssistance: FC<TProps> = ({ fitness }) => {
+  
+  const [isModalOpen, setModalOpen] = useState(false);
+  
+  const toggleModal = () => setModalOpen(!isModalOpen);
+
   const [virtualAssistanceInput, setVirtualAssistanceInput] = useState(fitness.virtualAssistance);
 
   const saveVirtualAssistance = async () => {
@@ -37,7 +42,7 @@ const VirtualAssistance: FC<TProps> = ({ fitness, isOpen: isModalOpen, toggleMod
           <FormGroup>
             <ReactQuill 
               className="border"
-              theme="bubble"
+              // theme="bubble"
               value={virtualAssistanceInput}
               onChange={setVirtualAssistanceInput}
               modules={{

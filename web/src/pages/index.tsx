@@ -1,27 +1,10 @@
 import axios from 'axios';
+import { GetServerSideProps } from 'next';
 import React, { FC, useCallback, useEffect } from 'react';
 import { Container, Card, CardBody } from 'reactstrap';
 import AdminNavbar from '../components/admin/navbar';
 
 const Index: FC = () => {
-
-  const fetchAuthUser = useCallback(async () => {
-    try {
-      const {data: {user}} = await axios.get('/api/auth');
-  
-      if (location.pathname !== `/${user.type}`) {
-        if (user.type === 'admin') location.href = `/admin/fitness`
-        else location.href = `/${user.type}`;
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) location.href = '/login'
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchAuthUser();
-  }, [fetchAuthUser]);
-
   return (
     <>
       <Container className="mt-5">
@@ -32,10 +15,39 @@ const Index: FC = () => {
             Redirecting
           </CardBody>
         </Card>
-
       </Container>
     </>
   );
 };
+
+export const getServerSideProps: GetServerSideProps = async ({req}) => {
+  try {
+    const {data: {user}} = await axios.get('http://localhost:8000/api/auth', {
+      withCredentials: true,
+      headers: req.headers
+    });
+
+    let destination = '';
+
+    if (location.pathname !== `/${user.type}`) {
+      if (user.type === 'admin') destination = `/admin/fitness`
+      else destination = `/${user.type}`;
+    }
+
+    return {
+      redirect: {
+        permanent: false,
+        destination
+      }
+    }
+  } catch (error) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/login'
+      }
+    }
+  }
+}
 
 export default Index;

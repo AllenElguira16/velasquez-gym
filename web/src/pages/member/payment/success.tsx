@@ -18,8 +18,7 @@ const Payment = () => {
   }, []);
 
   useEffect(() => {
-      setPayment();
-    
+    setPayment();
   }, [setPayment]);
 
   return (
