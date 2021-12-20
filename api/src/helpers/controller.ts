@@ -2,7 +2,7 @@ import Express from "express";
 import path from "path";
 import fs from 'fs';
 import {ResponseError} from "./response-error";
-import {serializeError} from 'serialize-error';
+import serializeError from 'serialize-error';
 
 const router = Express.Router();
 
@@ -43,7 +43,7 @@ export const registerController = (controllerDirectory: string) => {
             response.status(500).json({
               success: false,
               status: 500,
-              content: serializeError(error)
+              content: error
             });
           }
         }
