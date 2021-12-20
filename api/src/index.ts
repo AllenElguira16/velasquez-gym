@@ -3,7 +3,7 @@ import { createConnection } from 'typeorm';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
-import {registerController} from 'express-controller';
+import {registerController} from '~/helpers/controller';
 import session from 'express-session';
 import 'express-async-errors';
 

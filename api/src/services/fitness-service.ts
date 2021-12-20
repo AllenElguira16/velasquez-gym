@@ -1,4 +1,3 @@
-import { ResponseError } from "express-controller";
 import { getRepository } from "typeorm";
 import { FitnessEntity } from "~/entities/fitness-entity";
 

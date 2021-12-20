@@ -1,8 +1,7 @@
 import { getRepository } from "typeorm";
-import axios from 'axios';
 import { MembershipEntity } from "~/entities/membership-entity";
 import { UserEntity } from "~/entities/user-entity";
-import { ResponseError } from "express-controller";
+import { ResponseError } from "~/helpers/response-error";
 
 const membershipRepository = getRepository(MembershipEntity);
 const userRepository = getRepository(UserEntity);

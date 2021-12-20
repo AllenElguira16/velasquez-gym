@@ -1,4 +1,4 @@
-import { ResponseError } from 'express-controller';
+import { ResponseError } from '~/helpers/response-error';
 import {TController} from '~/api';
 import { getUserById } from '~/services/user-service';
 

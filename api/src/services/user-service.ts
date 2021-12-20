@@ -1,5 +1,6 @@
-import { ResponseError } from "express-controller";
 import { getRepository } from "typeorm";
+
+import { ResponseError } from "~/helpers/response-error";
 import { UserEntity } from "~/entities/user-entity";
 
 const userRepository = getRepository(UserEntity);

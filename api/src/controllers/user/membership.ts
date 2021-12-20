@@ -1,4 +1,3 @@
-import { ResponseError } from "express-controller";
 import { TController } from "~/api";
 import { membershipPayment, getMembership } from "~/services/membership-service";
 
