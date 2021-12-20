@@ -23,6 +23,7 @@
     "express-session": "^1.17.2",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.0",
+    "serialize-error": "^9.0.0",
     "sqlite3": "^5.0.2",
     "typeorm": "^0.2.37"
   },
