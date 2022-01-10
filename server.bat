@@ -1,8 +1,8 @@
 @echo off
 cls 
 IF exist api/node_modules (
-	cd api && npm run dev
+	cd api && npm run start
 ) ELSE (
 	echo Installing Backend Modules
-	cd api && npm install && npm run dev
+	cd api && npm install && npm run start
 )

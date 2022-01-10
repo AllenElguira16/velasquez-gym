@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "cross-env APP_ENV=development nodemon",
-    "build": "cross-env APP_ENV=production babel src --out-dir dist --extensions \".ts\""
+    "start": "cross-env APP_ENV=production babel-node src/index.ts --extensions \".ts\""
   },
   "dependencies": {
     "@adyen/api-library": "^10.1.0",
@@ -28,6 +28,7 @@
     "typeorm": "^0.2.37"
   },
   "devDependencies": {
+    "@babel/cli": "^7.16.7",
     "@babel/core": "^7.15.5",
     "@babel/node": "^7.15.4",
     "@babel/plugin-proposal-decorators": "^7.15.4",
