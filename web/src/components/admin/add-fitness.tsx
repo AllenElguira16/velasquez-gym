@@ -1,11 +1,13 @@
 import axios from 'axios';
 import React, { ChangeEvent, FormEvent, useState } from 'react';
+import { useAlert } from 'react-alert';
 import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Input, ModalFooter } from 'reactstrap';
 import { getBase64 } from '../../helpers/get-base64';
 
 type TFitnessInputForm = Omit<IFitness,'id'>;
 
 const AddFitness = () => {
+  const alert = useAlert();
   const [isFitnessModalOpen, setFitnessModalOpen] = useState(false);
   const toggleModal = () => setFitnessModalOpen(!isFitnessModalOpen);
 
@@ -33,11 +35,11 @@ const AddFitness = () => {
     try {
       await axios.post('/api/fitness', inputForm);
 
-      alert('Fitness Type Added');
+      alert.show('Fitness Type Added');
       location.reload();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        alert(error.response?.data.message);
+        alert.show(error.response?.data.message);
       }
     }
   }

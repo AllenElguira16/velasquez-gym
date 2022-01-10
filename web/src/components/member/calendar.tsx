@@ -5,8 +5,10 @@ import { Button } from 'reactstrap';
 import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactDOM from 'react-dom';
+import { useAlert } from 'react-alert';
 
 const Calendar = () => {
+  const alert = useAlert();
   const [_, forceUpdate] = useReducer((x) => x + 1, 0);
   const [attendances, setAttendances] = useState<IAttendance[]>([]);
   const [currentMoment, setCurrentMoment] = useState(moment());
@@ -19,7 +21,7 @@ const Calendar = () => {
       location.reload();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        alert(error.response?.data.message);
+        alert.error(error.response?.data.message);
       }
     }
   }
@@ -31,7 +33,7 @@ const Calendar = () => {
       location.reload();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        alert(error.response?.data.message);
+        alert.error(error.response?.data.message);
       }
     }
   }

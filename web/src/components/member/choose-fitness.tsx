@@ -1,9 +1,10 @@
 import axios from 'axios';
 import React, { FC, useCallback, useEffect, useState } from 'react';
+import { useAlert } from 'react-alert';
 import { Card, CardBody, Col, CardTitle, CardImg, CardImgOverlay } from 'reactstrap';
 
 const ChooseFitness: FC = () => {
-
+  const alert = useAlert();
   const [fitnessTypes, setFitnessTypes] = useState<IFitness[]>([]);
   
   const fetchFitnessTypes = useCallback(async () => {
@@ -13,10 +14,10 @@ const ChooseFitness: FC = () => {
       setFitnessTypes(fitness);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        alert(error.response?.data.message);
+        alert.error(error.response?.data.message);
       }
     }
-  }, []);
+  }, [alert]);
 
   const [authUser, setAuthUser] = useState<IUser>();
 

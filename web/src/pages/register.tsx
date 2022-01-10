@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import React, { ChangeEvent, FC, FormEvent, useCallback, useEffect, useState } from 'react';
+import { useAlert } from 'react-alert';
 import { Button, Card, CardBody, CardHeader, Col, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 
 type TRegistrationInputForm = {
@@ -13,7 +14,7 @@ type TRegistrationInputForm = {
 }
 
 const Index: FC = () => {
-
+  const alert = useAlert();
   const [inputForm, setInputForm] = useState<TRegistrationInputForm>({
     firstname: '',
     lastname: '',
@@ -35,11 +36,11 @@ const Index: FC = () => {
     try {
       await axios.post('/api/auth/register', inputForm);
 
-      alert('Registration Complete');
+      alert.success('Registration Complete');
       location.href = '/login';
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        alert(error.response?.data.message);
+        alert.error(error.response?.data.message);
       }
     }
   }

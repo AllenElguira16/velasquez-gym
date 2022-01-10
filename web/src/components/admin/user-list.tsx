@@ -3,8 +3,10 @@ import { Button, Table } from 'reactstrap';
 import axios from 'axios';
 import VirtualAssistance from './virtual-assistant';
 import Preview from './preview';
+import { useAlert } from 'react-alert';
 
 const UserList = () => {
+  const alert = useAlert();
   const [isVirtualOpen, setVirtualOpen] = useState(false);
   const [isPreviewOpen, setPreviewOpen] = useState(false);
   const [users, setUsers] = useState<IUser[]>([]);
@@ -16,10 +18,10 @@ const UserList = () => {
       setUsers(users);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        alert(error.response?.data.message);
+        alert.error(error.response?.data.message);
       }
     }
-  }, []);
+  }, [alert]);
 
   const toggleVirtual = () => setVirtualOpen(!isVirtualOpen);
   const togglePreview = () => setPreviewOpen(!isPreviewOpen);

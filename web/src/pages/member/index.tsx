@@ -10,7 +10,6 @@ import HomeNavbar from '../../components/member/navbar';
 type Props = { user: IUser };
 
 const Index: NextPage<Props> = ({ user: authUser }) => {
-  console.log(authUser);
   // const [authUser, setAuthUser] = useState<IUser>();
 
   // const fetchAuthUser = useCallback(async () => {

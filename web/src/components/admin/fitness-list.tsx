@@ -3,8 +3,10 @@ import { Button, Table } from 'reactstrap';
 import axios from 'axios';
 import VirtualAssistance from './virtual-assistant';
 import Preview from './preview';
+import { useAlert } from 'react-alert';
 
 const FitnessList = () => {
+  const alert = useAlert();
   const [isPreviewOpen, setPreviewOpen] = useState(false);
   const [fitnessTypes, setFitnessTypes] = useState<IFitness[]>([]);
   
@@ -15,10 +17,10 @@ const FitnessList = () => {
       setFitnessTypes(fitness);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        alert(error.response?.data.message);
+        alert.error(error.response?.data.message);
       }
     }
-  }, []);
+  }, [alert]);
 
   const deleteFitness = (id: string) => async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.stopPropagation();

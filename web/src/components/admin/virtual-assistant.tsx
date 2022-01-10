@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { FC, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { Modal, ModalHeader, ModalBody, FormGroup, ModalFooter, Button } from 'reactstrap';
+import { useAlert } from 'react-alert';
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
@@ -12,7 +13,7 @@ type TProps = {
 }
 
 const VirtualAssistance: FC<TProps> = ({ fitness }) => {
-  
+  const alert = useAlert();
   const [isModalOpen, setModalOpen] = useState(false);
   
   const toggleModal = () => setModalOpen(!isModalOpen);
@@ -24,7 +25,7 @@ const VirtualAssistance: FC<TProps> = ({ fitness }) => {
       virtualAssistance: virtualAssistanceInput
     });
 
-    alert('Saved!');
+    alert.success('Saved!');
   }
 
   return (

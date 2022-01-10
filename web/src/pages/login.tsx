@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import React, { ChangeEvent, FC, FormEvent, useCallback, useEffect, useState } from 'react';
+import { useAlert } from 'react-alert';
 import { Button, Card, CardBody, CardHeader, Col, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 
 type TLoginInputForm = {
@@ -9,6 +10,7 @@ type TLoginInputForm = {
 }
 
 const Login: FC = () => {
+  const alert = useAlert();
 
   const [inputForm, setInputForm] = useState<TLoginInputForm>({
     username: '',
@@ -28,11 +30,11 @@ const Login: FC = () => {
     try {
       await axios.post('http://localhost:8000/api/auth/login', inputForm);
 
-      alert('Login Complete, redirecting...');
+      alert.success('Login Complete, redirecting...');
       location.href = '/';
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        alert(error.response?.data.message);
+        alert.error(error.response?.data.message);
       }
     }
   }

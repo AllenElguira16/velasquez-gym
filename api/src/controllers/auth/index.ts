@@ -14,8 +14,6 @@ export const Get: TController = async (request, response) => {
     throw new ResponseError(404, 'User not authenticated');
   }
 
-  console.log(userId);
-
   response.status(200).json({
     success: true,
     status: 200,
