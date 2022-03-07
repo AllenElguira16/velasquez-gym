@@ -1,24 +1,24 @@
-import axios from 'axios';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Button, Card, Container } from 'reactstrap';
 import paymaya from 'paymaya-js-sdk';
 
 import HomeNavbar from '../../../components/member/navbar';
 
 const Payment = () => {
+  const paymayaForm = useRef<HTMLDivElement>(null);
   const referenceId = Math.floor(100000000 + Math.random() * 900000000);
+
   const submitPayment = async () => {
-    paymaya.init('pk-Z0OSzLvIcOI2UIvDhdTGVVfRSSeiGStnceqwUE7n0Ah', true);
     paymaya.createCheckout({
       "totalAmount": {
-        "value": 100,
+        "value": 1000,
         "currency": "PHP",
         "details": {
           "discount": 0,
           "serviceCharge": 0,
           "shippingFee": 0,
           "tax": 0,
-          "subtotal": 100
+          "subtotal": 500
         }
       },
       "items": [
@@ -26,25 +26,25 @@ const Payment = () => {
           "name": "Velasquez Gym - Membership Payment",
           "quantity": 1,
           "code": "CVG-096732",
-          "description": "Shoes",
+          "description": "Gym",
           "amount": {
-            "value": 100,
+            "value": 500,
             "details": {
               "discount": 0,
               "serviceCharge": 0,
               "shippingFee": 0,
               "tax": 0,
-              "subtotal": 100
+              "subtotal": 500
             }
           },
           "totalAmount": {
-            "value": 100,
+            "value": 500,
             "details": {
               "discount": 0,
               "serviceCharge": 0,
               "shippingFee": 0,
               "tax": 0,
-              "subtotal": 100
+              "subtotal": 500
             }
           }
         }
@@ -56,8 +56,12 @@ const Payment = () => {
       },
       "requestReferenceNumber": referenceId.toString(),
       "metadata": {}
-    });
+    });  
   }
+
+  useEffect(() => {
+    paymaya.init('pk-Z0OSzLvIcOI2UIvDhdTGVVfRSSeiGStnceqwUE7n0Ah', true);
+  }, []);
 
   return (
     <div className="d-flex vh-100">
@@ -68,6 +72,9 @@ const Payment = () => {
           <h2>Membership Payment</h2>
 
           <p>To access any service, kindly proceed to payment through the PayMaya</p>
+
+          {/* <div ref={paymayaForm}></div> */}
+
           <Button className="mt-5" color="primary" onClick={submitPayment}>Proceed to payment</Button>
         </Card>
       </Container>

@@ -1,5 +1,5 @@
 import { TController } from "~/api";
-import { checkIn, getAttendance } from "~/services/attendance-service";
+import { getAttendance } from "~/services/attendance-service";
 
 export const Get: TController = async (request, response) => {
 

@@ -9,7 +9,9 @@ interface IUser {
   type: 'member'|'admin';
   fitness: IFitness;
   attendances?: IAttendance[]
-  membership?: IMembership;
+  memberships?: IMembership[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 interface IFitness {
@@ -17,18 +19,22 @@ interface IFitness {
   type: string;
   img: string;
   virtualAssistance?: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 interface IMembership {
   id: string;
-  user_id: string;
+  user: IUser;
   paid: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 interface IAttendance {
   id: string;
   user_id: string;
-  checkIn: boolean;
-  checkOut: boolean;
-  date: string;
+  type: 'check-in'|'check-out'
+  createdAt: Date;
+  updatedAt: Date;
 }

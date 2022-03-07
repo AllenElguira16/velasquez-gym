@@ -1,4 +1,4 @@
-import { getRepository } from "typeorm";
+import { Between, getRepository, Not } from "typeorm";
 
 import { ResponseError } from "~/helpers/response-error";
 import { UserEntity } from "~/entities/user-entity";
@@ -7,13 +7,13 @@ const userRepository = getRepository(UserEntity);
 
 export const registerAdmin = async () => {
 
-  const user: Omit<IUser,'id'|'fitness'> = {
+  const user: Omit<IUser,'id'|'fitness'|'createdAt'|'updatedAt'> = {
     firstname: 'admin',
     lastname: 'admin',
     username: 'admin',
     email: 'admin@admin.com',
     password: 'admin',
-    type: 'admin',
+    type: 'admin'
   };
 
   const countUser = await userRepository.count({ 
@@ -60,13 +60,16 @@ export const loginUser = async ({username, password}: Pick<IUser, 'username'|'pa
 
 export const getUsers = async () => {
   return userRepository.find({
-    relations: ['fitness', 'attendances', 'membership']
+    relations: ['fitness', 'attendances', 'memberships'],
+    where: {
+      type: Not('admin')
+    }
   });
 }
 
 export const getUserById = async (id: string) => {
   return userRepository.findOne(id, {
-    relations: ['fitness', 'attendances', 'membership']
+    relations: ['fitness', 'attendances', 'memberships']
   });
 }
 
@@ -79,4 +82,10 @@ export const updateUser = async (id: string, userData: Partial<IUser>) => {
   });
 }
 
-
+export const totalUsers = (rangeFrom: string, rangeTo: string) => {
+  return userRepository.count({
+    where: {
+      createdAt: Between(rangeFrom, rangeTo)
+    }
+  });
+}

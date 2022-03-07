@@ -56,22 +56,8 @@ const Calendar = () => {
     setAttendances(data.attendance);
   }, []);
 
-  const isCheckedIn = (dateString: string) => {
-    const attendance = attendances.filter(attendance => attendance.date === dateString)[0] || undefined;
-    
-    if (!attendance) 
-      return false
-
-    return attendance.date === dateString && attendance.checkIn;
-  }
-
-  const isCheckedOut = (dateString: string) => {
-    const attendance = attendances.filter(attendance => attendance.date === dateString)[0] || undefined;
-    
-    if (!attendance) 
-      return false
-
-    return attendance.date === dateString && attendance.checkOut;
+  const attendanceInfo = (dateString: string, type: IAttendance['type']) => {
+    return !attendances ?undefined : attendances.find((attendance) => type === attendance.type && moment(dateString).isSame(attendance.createdAt, 'day'));
   }
 
   useEffect(() => {
@@ -124,8 +110,12 @@ const Calendar = () => {
               >
                 <div>{day.format('D')}</div>
                 <div className="text-dark" style={{lineHeight: 1}}>
-                  {isCheckedIn(day.format('YYYY-MM-DD')) && (<div>in</div>)}
-                  {isCheckedOut(day.format('YYYY-MM-DD')) && (<div>out</div>)}
+                  {attendanceInfo(day.format('YYYY-MM-DD'), 'check-in') && (
+                    <div>{moment(attendanceInfo(day.format('YYYY-MM-DD'), 'check-in')?.createdAt).format('hh:mm a')}</div>
+                  )}
+                  {attendanceInfo(day.format('YYYY-MM-DD'), 'check-out') && (
+                    <div>{moment(attendanceInfo(day.format('YYYY-MM-DD'), 'check-out')?.createdAt).format('hh:mm a')}</div>
+                  )}
                 </div>
               </span>
             ))}

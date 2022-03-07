@@ -1,51 +1,76 @@
-import { getRepository } from "typeorm";
+import { Between, getRepository } from "typeorm";
 
 import { AttendanceEntity } from "~/entities/attendance-entity";
 import { ResponseError } from "~/helpers/response-error";
-import { today } from "~/helpers/today";
 
 const attendanceEntity = getRepository(AttendanceEntity);
 
 export const checkIn = async (userId: string) => {
-  const checkInCount = await attendanceEntity.count({ where: {user_id: userId, date: today }});
+  const start = new Date();
+  start.setUTCHours(0,0,0,0);
+
+  const end = new Date();
+  end.setUTCHours(23,59,59,999);
+
+  const checkInCount = await attendanceEntity.count({ 
+    where: {
+      user_id: userId,
+      type: 'check-in',
+      date: Between(new Date(start.toUTCString()).toISOString(), new Date(end.toUTCString()).toISOString())
+    }
+  });
+
   if (checkInCount > 0) {
     throw new ResponseError(400, 'Already Checked-in');
   }
 
   await attendanceEntity.save({  
     user_id: userId,
-    checkIn: true,
+    type: 'check-in'
   });
 };
 
 export const checkOut = async (userId: string) => {
-  const attendance = await attendanceEntity.findOne({ 
+  const start = new Date();
+  start.setUTCHours(0,0,0,0);
+
+  const end = new Date();
+  end.setUTCHours(23,59,59,999);
+
+  const checkInCount = await attendanceEntity.count({ 
     where: {
       user_id: userId,
-      checkIn: true, 
-      date: today
+      type: 'check-in',
+      date: Between(new Date(start.toUTCString()).toISOString(), new Date(end.toUTCString()).toISOString())
     }
   });
 
-  if (!attendance) {
+  if (checkInCount === 0) {
     throw new ResponseError(400, 'Check-in First');
   }
 
-  if (attendance.checkOut) {
+  const checkOutCount = await attendanceEntity.count({ 
+    where: {
+      user_id: userId,
+      type: 'check-out',
+      date: Between(new Date(start.toUTCString()).toISOString(), new Date(end.toUTCString()).toISOString())
+    }
+  });
+
+  if (checkOutCount > 0) {
     throw new ResponseError(400, 'Already Checked-out');
   }
 
-  attendance.checkOut = true;
-
-  await attendanceEntity.save(attendance);
+  await attendanceEntity.save({  
+    user_id: userId,
+    type: 'check-out'
+  });
 };
 
 export const getAttendance = async (userId: string) => {
-  const data = await attendanceEntity.find({ 
+  return attendanceEntity.find({ 
     where: {
       user_id: userId
     }
   });
-
-  return data;
 }

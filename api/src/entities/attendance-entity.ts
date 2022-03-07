@@ -1,5 +1,4 @@
-import {Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
-import { today } from '~/helpers/today';
+import {Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
 import { UserEntity } from './user-entity';
 
 @Entity({name: 'attendance'})
@@ -7,15 +6,20 @@ export class AttendanceEntity implements IAttendance {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => UserEntity, userEntity => userEntity.attendances)
+  @ManyToOne(() => UserEntity, userEntity => userEntity.attendances, {
+    eager: true
+  })
   user_id: string;
 
-  @Column('boolean', { default: false })
-  checkIn: boolean;
+  @Column('text')
+  type: 'check-in'|'check-out';
 
-  @Column('boolean', { default: false })
-  checkOut: boolean;
+  @Column('datetime', { default: (new Date()).toISOString() })
+  date: Date;
 
-  @Column({ type: 'text', default: today })
-  date: string;
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

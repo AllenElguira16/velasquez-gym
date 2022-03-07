@@ -1,30 +1,23 @@
-import React, { ChangeEvent, MouseEventHandler, useCallback, useEffect, useState } from 'react';
-import { Button, Table } from 'reactstrap';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Table } from 'reactstrap';
 import axios from 'axios';
-import VirtualAssistance from './virtual-assistant';
-import Preview from './preview';
 import { useAlert } from 'react-alert';
 
 const UserList = () => {
   const alert = useAlert();
-  const [isVirtualOpen, setVirtualOpen] = useState(false);
-  const [isPreviewOpen, setPreviewOpen] = useState(false);
   const [users, setUsers] = useState<IUser[]>([]);
   
   const fetchUsers = useCallback(async () => {
     try {
-      const {data: {users}} = await axios.get('/api/user');
+      const {data} = await axios.get('/api/user');
   
-      setUsers(users);
+      setUsers(data.users);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         alert.error(error.response?.data.message);
       }
     }
   }, [alert]);
-
-  const toggleVirtual = () => setVirtualOpen(!isVirtualOpen);
-  const togglePreview = () => setPreviewOpen(!isPreviewOpen);
 
   useEffect(() => {
     fetchUsers();
@@ -38,7 +31,6 @@ const UserList = () => {
             <th>Username</th>
             <th>Paid</th>
             <th>Current Membership</th>
-            {/* <th>Actions</th> */}
           </tr>
         </thead>
         <tbody>
@@ -51,9 +43,6 @@ const UserList = () => {
               <td>
                 {user.fitness !== null && user.fitness.type}
               </td>
-              {/* <td className="w-25"> */}
-                {/* <VirtualAssistance toggleModal={toggleVirtual} isOpen={isVirtualOpen} fitness={fitnessType} /> */}
-              {/* </td> */}
             </tr>
           ))}
         </tbody>

@@ -61,3 +61,8 @@ body:before {
 .ql-formats .ql-picker-label .ql-fill {
     fill: #FFF!important;
 }
+
+iframe {
+    width: inherit;
+    height: 100%;
+}

@@ -1,4 +1,4 @@
-import {Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
 import { AttendanceEntity } from './attendance-entity';
 import { FitnessEntity } from './fitness-entity';
 import { MembershipEntity } from './membership-entity';
@@ -32,15 +32,18 @@ export class UserEntity implements IUser {
   @JoinColumn({ name: 'fitness_id' })
   fitness: FitnessEntity;
 
-  @OneToOne(() => MembershipEntity, membershipEntity => membershipEntity.user_id, {
-    onDelete: 'CASCADE'
-  })
+  @OneToMany(() => MembershipEntity, membershipEntity => membershipEntity.user, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'membership_id' })
-  membership: MembershipEntity;
+  memberships: MembershipEntity[];
 
   @OneToMany(() => AttendanceEntity, attendanceEntity => attendanceEntity.user_id, {
     onDelete: 'CASCADE'
   })
-  // @JoinColumn()
   attendances: AttendanceEntity[];
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

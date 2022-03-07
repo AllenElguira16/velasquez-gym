@@ -1,5 +1,4 @@
-import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
-import { UserEntity } from './user-entity';
+import {Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
 
 @Entity({name: 'fitness'})
 export class FitnessEntity implements IFitness {
@@ -14,4 +13,10 @@ export class FitnessEntity implements IFitness {
 
   @Column('text', { nullable: true })
   virtualAssistance: string = null;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

@@ -16,7 +16,7 @@ const AdminNavbar: FC = () => {
       expand="md" 
       color="light" 
       full
-      light 
+      light
     >
       <NavbarBrand>
         Velasquez Gym
@@ -24,6 +24,11 @@ const AdminNavbar: FC = () => {
       <NavbarToggler onClick={() => setNavbarOpen(!isNavbarOpen)}/>
       <Collapse isOpen={isNavbarOpen} navbar>
         <Nav className="me-auto flex-grow-1" navbar>
+          <NavItem>
+            <NavLink href="/admin/summary">
+              Summary of Report
+            </NavLink>
+          </NavItem>
           <NavItem>
             <NavLink href="/admin/fitness">
               Fitness

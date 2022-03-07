@@ -1,6 +1,4 @@
-import {Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
-import { membershipExpiryDate, today } from '~/helpers/today';
-import { FitnessEntity } from './fitness-entity';
+import {Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
 import { UserEntity } from './user-entity';
 
 @Entity({name: 'membership'})
@@ -8,20 +6,22 @@ export class MembershipEntity implements IMembership {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  // @ManyToOne(() => UserEntity, userEntity => userEntity.attendances)
-  // @OneToOne(() => UserEntity, userEntity => userEntity.membership, {
-  //   onDelete: 'CASCADE'
-  // })
-  // @JoinColumn({ name: 'membership_id' })
-  @Column('uuid')
-  user_id: string;
+  @ManyToOne(() => UserEntity, userEntity => userEntity.memberships, { onDelete: 'CASCADE', eager: true })
+  @JoinColumn({ name: 'user_id' })
+  user: IUser;
 
   @Column('boolean')
   paid: boolean;
+  
+  @Column('datetime', { default: (new Date()).toISOString() })
+  startDate: Date;
 
-  @Column('date', { default: today })
-  startDate: string;
+  @Column('datetime', { default: (new Date(new Date().setDate((new Date()).getDate() + 30))).toISOString() })
+  endDate: Date;
 
-  @Column('date', { default: membershipExpiryDate })
-  endDate: string;
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
