@@ -6,6 +6,7 @@ import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactDOM from 'react-dom';
 import { useAlert } from 'react-alert';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 const Calendar = () => {
   const alert = useAlert();
@@ -91,7 +92,7 @@ const Calendar = () => {
       <header className="d-flex  justify-content-between">        
         <Button className="d-none d-sm-block btn-sm" color="primary" onClick={checkIn}>Check-in</Button>
         <div className="d-flex justify-content-between align-items-center mx-auto">
-          <FontAwesomeIcon style={{cursor: 'pointer'}} onClick={prevMonth} icon={faAngleLeft} size="2x" />
+          <FontAwesomeIcon style={{cursor: 'pointer'}} onClick={prevMonth} icon={faAngleLeft as IconProp} size="2x" />
           <div className="text-center lh-1">
             <h2 className="m-0 mx-sm-4 mx-1">{currentMoment.format('MMMM').toString()}</h2>
             <small>{currentMoment.format('YYYY').toString()}</small>
