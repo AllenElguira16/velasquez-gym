@@ -38,7 +38,7 @@ const UserList = () => {
             <tr key={user.id}>
               <td className="w-25">{user.username}</td>
               <td className="w-50">
-                {user.membership !== null ? 'Yes' : 'No'}
+                {user.memberships !== null ? 'Yes' : 'No'}
               </td>
               <td>
                 {user.fitness !== null && user.fitness.type}

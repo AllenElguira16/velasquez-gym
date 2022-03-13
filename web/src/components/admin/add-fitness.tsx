@@ -11,7 +11,7 @@ const AddFitness = () => {
   const [isFitnessModalOpen, setFitnessModalOpen] = useState(false);
   const toggleModal = () => setFitnessModalOpen(!isFitnessModalOpen);
 
-  const [inputForm, setInputForm] = useState<Omit<IFitness,'id'|'virtualAssistance'>>({
+  const [inputForm, setInputForm] = useState<Omit<IFitness,'id'|'virtualAssistance'|'createdAt'|'updatedAt'>>({
     type: '',
     img: ''
   });

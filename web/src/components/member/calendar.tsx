@@ -103,10 +103,10 @@ const Calendar = () => {
       <div>
         {calendar.map((week, i) => (
           <div className="d-flex" key={i}>
-            {week.days.map((day, i) => (
+            {week.days.map((day, j) => (
               <span 
                 className={`position-relative col weekdays border ${dateCssClass(day)} `} 
-                key={i}
+                key={j}
               >
                 <div>{day.format('D')}</div>
                 <div className="text-dark" style={{lineHeight: 1}}>
