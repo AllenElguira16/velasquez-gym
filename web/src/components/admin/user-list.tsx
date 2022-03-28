@@ -1,28 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import { Table } from 'reactstrap';
-import axios from 'axios';
-import { useAlert } from 'react-alert';
 
-const UserList = () => {
-  const alert = useAlert();
-  const [users, setUsers] = useState<IUser[]>([]);
-  
-  const fetchUsers = useCallback(async () => {
-    try {
-      const {data} = await axios.get('/api/user');
-  
-      setUsers(data.users);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        alert.error(error.response?.data.message);
-      }
-    }
-  }, [alert]);
+interface Props {
+  users: IUser[];
+}
 
-  useEffect(() => {
-    fetchUsers();
-  }, [fetchUsers]);
-  
+const UserList: FC<Props> = ({users}) => {
   return (
     <>
       <Table>
@@ -38,7 +21,7 @@ const UserList = () => {
             <tr key={user.id}>
               <td className="w-25">{user.username}</td>
               <td className="w-50">
-                {user.memberships !== null ? 'Yes' : 'No'}
+                {(user.memberships !== undefined && user.memberships.length !== 0) ? 'Yes' : 'No'}
               </td>
               <td>
                 {user.fitness !== null && user.fitness.type}
