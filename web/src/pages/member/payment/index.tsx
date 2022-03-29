@@ -60,7 +60,7 @@ const Payment = () => {
   }
 
   useEffect(() => {
-    paymaya.init('pk-Z0OSzLvIcOI2UIvDhdTGVVfRSSeiGStnceqwUE7n0Ah', true);
+    paymaya.init('pk-eo4sL393CWU5KmveJUaW8V730TTei2zY8zE4dHJDxkF', true);
   }, []);
 
   return (
