@@ -85,6 +85,7 @@ export const updateUser = async (id: string, userData: Partial<IUser>) => {
 export const totalUsers = (rangeFrom: string, rangeTo: string) => {
   return userRepository.count({
     where: {
+      type: Not('admin'),
       createdAt: Between(rangeFrom, rangeTo)
     }
   });

@@ -22,7 +22,7 @@ const Admin: FC = () => {
     const { data } = await axios.get(`http://localhost:8000/api/summary?range=${weekStart},${weekEnd}`);
     setWeekly({
       totalIncome: data.content.totalIncome,
-      totalUsers: data.content.totalIncome,
+      totalUsers: data.content.totalUsers,
     });
   }, []);
 
@@ -33,7 +33,7 @@ const Admin: FC = () => {
     const { data } = await axios.get(`http://localhost:8000/api/summary?range=${weekStart},${weekEnd}`);
     setMonthly({
       totalIncome: data.content.totalIncome,
-      totalUsers: data.content.totalIncome,
+      totalUsers: data.content.totalUsers,
     });
   }, []);
 
@@ -44,7 +44,7 @@ const Admin: FC = () => {
     const { data } = await axios.get(`http://localhost:8000/api/summary?range=${weekStart},${weekEnd}`);
     setYearly({
       totalIncome: data.content.totalIncome,
-      totalUsers: data.content.totalIncome,
+      totalUsers: data.content.totalUsers,
     });
   }, []);
 
