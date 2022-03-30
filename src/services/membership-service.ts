@@ -17,22 +17,30 @@ export const getMembership = async () => {
 
 export const membershipPayment = async (userId: string) => {
   try {
-    const user = await userRepository.findOne({
+    const user = await userRepository.findOneOrFail({
       relations: ['memberships'],
       where: {
-        id: userId,
-        memberships: {
-          endDate: MoreThanOrEqual(new Date()) as unknown as Date
-        }
+        id: userId
       }
     });
 
-    if (user === null) {
-      await membershipRepository.save({
-        user: await userRepository.findOneOrFail({ where: { id: userId } }),
-        paid: true
-      });
-    }
+    const membership = await membershipRepository.findOne({
+      where: {
+        paid: true,
+        user,
+        endDate: MoreThanOrEqual(new Date())
+      }
+    }) 
+
+  
+    if (membership) 
+      throw new ResponseError(500, 'User already have membership');
+  
+    const newMembership = await membershipRepository.save({ user: await userRepository.findOne(userId), paid: true });    
+    
+    user.memberships = [...user.memberships, newMembership];
+  
+    await userRepository.save(user);
   } catch (error) {
     if (error instanceof Error) {
       throw new ResponseError(500, error.message);

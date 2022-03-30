@@ -1,4 +1,3 @@
-import axios from 'axios';
 import moment, { Moment } from 'moment';
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import { Button } from 'reactstrap';
@@ -8,6 +7,8 @@ import ReactDOM from 'react-dom';
 import { useAlert } from 'react-alert';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { IAttendance } from '~/types';
+import { ajax } from '~/helpers/ajax';
+import axios from 'axios';
 
 const Calendar = () => {
   const alert = useAlert();
@@ -18,7 +19,7 @@ const Calendar = () => {
   
   const checkIn = async () => {
     try {
-      await axios.post('/api/user/attendance/check-in');
+      await ajax.post('/api/user/attendance/check-in');
   
       location.reload();
     } catch (error) {
@@ -30,7 +31,7 @@ const Calendar = () => {
 
   const checkOut = async () => {
     try {
-      await axios.post('/api/user/attendance/check-out');
+      await ajax.post('/api/user/attendance/check-out');
   
       location.reload();
     } catch (error) {
@@ -53,7 +54,7 @@ const Calendar = () => {
   }
 
   const loadAttendance = useCallback(async () => {
-    const {data} = await axios.get('/api/user/attendance');
+    const {data} = await ajax.get('/api/user/attendance');
 
     setAttendances(data.attendance);
   }, []);

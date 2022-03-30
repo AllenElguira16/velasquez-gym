@@ -2,6 +2,7 @@ import axios from 'axios';
 import { GetServerSideProps, NextPage } from 'next';
 import React from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
+import { ajax } from '~/helpers/ajax';
 import { IUser } from '~/types';
 import Calendar from '../../components/member/calendar';
 import ChooseFitness from '../../components/member/choose-fitness';
@@ -35,7 +36,7 @@ const Index: NextPage<Props> = ({ user: authUser }) => {
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   try {
-    const {data: {user}} = await axios.get('http://localhost:3000/api/auth', {
+    const {data: {user}} = await ajax.get('/api/auth', {
       withCredentials: true,
       headers: req.headers
     });

@@ -1,9 +1,9 @@
-import axios from 'axios';
 import React, { FC, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { Modal, ModalHeader, ModalBody, FormGroup, ModalFooter, Button } from 'reactstrap';
 import { useAlert } from 'react-alert';
 import { IFitness } from '~/types';
+import { ajax } from '~/helpers/ajax';
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
@@ -22,7 +22,7 @@ const VirtualAssistance: FC<TProps> = ({ fitness }) => {
   const [virtualAssistanceInput, setVirtualAssistanceInput] = useState(fitness.virtualAssistance);
 
   const saveVirtualAssistance = async () => {
-    await axios.put(`/api/fitness/${fitness.id}`, {
+    await ajax.post(`/api/fitness/${fitness.id}`, {
       virtualAssistance: virtualAssistanceInput
     });
 

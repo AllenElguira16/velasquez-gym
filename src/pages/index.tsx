@@ -2,6 +2,7 @@ import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import React, { FC, useCallback, useEffect } from 'react';
 import { Container, Card, CardBody } from 'reactstrap';
+import { ajax } from '~/helpers/ajax';
 import AdminNavbar from '../components/admin/navbar';
 
 const Index: FC = () => {
@@ -22,7 +23,7 @@ const Index: FC = () => {
 
 export const getServerSideProps: GetServerSideProps = async ({req}) => {
   try {
-    const {data: {user}} = await axios.get('http://localhost:3000/api/auth', {
+    const {data: {user}} = await ajax.get('/api/auth', {
       withCredentials: true,
       headers: req.headers
     });

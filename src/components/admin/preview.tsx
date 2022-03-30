@@ -1,7 +1,6 @@
-import axios from 'axios';
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import dynamic from 'next/dynamic';
-import { Modal, ModalHeader, ModalBody, FormGroup, ModalFooter, Button } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { IFitness } from '~/types';
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });

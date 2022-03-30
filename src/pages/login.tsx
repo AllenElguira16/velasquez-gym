@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next';
 import React, { ChangeEvent, FC, FormEvent, useCallback, useEffect, useState } from 'react';
 import { useAlert } from 'react-alert';
 import { Button, Card, CardBody, CardHeader, Col, Container, Form, FormGroup, Input, Label } from 'reactstrap';
+import { ajax } from '~/helpers/ajax';
 import { IUser } from '~/types';
 
 type TLoginInputForm = {
@@ -29,7 +30,7 @@ const Login: FC = () => {
     event.preventDefault();
 
     try {
-      await axios.post('http://localhost:3000/api/auth/login', inputForm);
+      await ajax.post('/api/auth/login', inputForm);
 
       alert.success('Login Complete, redirecting...');
       location.href = '/';
@@ -85,7 +86,7 @@ const Login: FC = () => {
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   try {
     let destination = '';
-    const {data: {user}} = await axios.get('http://localhost:3000/api/auth', {
+    const {data: {user}} = await ajax.get('/api/auth', {
       withCredentials: true,
       headers: req.headers
     });

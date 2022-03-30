@@ -1,10 +1,11 @@
 import axios from 'axios';
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { Card, CardBody, CardHeader, CardImg, CardImgOverlay, CardTitle, Col, Container } from 'reactstrap';
+import { Card, CardBody, Container } from 'reactstrap';
 import VirtualAssistanceModal from '../../components/member/virtual-assistant';
 
 import HomeNavbar from '../../components/member/navbar';
 import { IUser } from '~/types';
+import { ajax } from '~/helpers/ajax';
 
 const Index: FC = () => {
   const [modal, setModal] = useState(false);
@@ -12,7 +13,7 @@ const Index: FC = () => {
 
   const fetchAuthUser = useCallback(async () => {
     try {
-      const {data: {user}} = await axios.get('/api/auth');
+      const {data: {user}} = await ajax.get('/api/auth');
   
       if (location.pathname !== `/${user.type}`) location.href = `/${user.type}`;
       else if (user.membership === null) location.href = '/member/payment' 

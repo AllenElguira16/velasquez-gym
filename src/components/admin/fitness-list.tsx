@@ -1,10 +1,11 @@
-import React, { ChangeEvent, MouseEventHandler, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Table } from 'reactstrap';
 import axios from 'axios';
 import VirtualAssistance from './virtual-assistant';
 import Preview from './preview';
 import { useAlert } from 'react-alert';
 import { IFitness } from '~/types';
+import { ajax } from '~/helpers/ajax';
 
 const FitnessList = () => {
   const alert = useAlert();
@@ -13,7 +14,7 @@ const FitnessList = () => {
   
   const fetchFitnessTypes = useCallback(async () => {
     try {
-      const {data: {fitness}} = await axios.get('/api/fitness');
+      const {data: {fitness}} = await ajax.get('/api/fitness');
   
       setFitnessTypes(fitness);
     } catch (error) {

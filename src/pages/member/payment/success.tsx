@@ -1,15 +1,14 @@
 import axios from 'axios';
 import React, { useCallback, useEffect } from 'react';
 import { Card, Container } from 'reactstrap';
-import paymaya from 'paymaya-js-sdk';
-
 import HomeNavbar from '../../../components/member/navbar';
+import { ajax } from '~/helpers/ajax';
 
 const Payment = () => {
   
   const setPayment = useCallback(async () => {
     try {
-      await axios.post('/api/user/membership');
+      await ajax.post('/api/user/membership');
     } catch (error) {
       if (axios.isAxiosError(error)) {
         alert(error.response?.data.message);

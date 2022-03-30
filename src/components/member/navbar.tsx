@@ -1,6 +1,6 @@
-import axios from 'axios';
 import React, { FC, useState } from 'react';
-import { Button, Collapse, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar as NavbarBase, NavbarBrand, NavbarText, NavbarToggler, NavItem, NavLink, UncontrolledDropdown } from 'reactstrap';
+import { Button, Collapse, Nav, Navbar as NavbarBase, NavbarBrand, NavbarToggler } from 'reactstrap';
+import { ajax } from '~/helpers/ajax';
 import { IUser } from '~/types';
 import VirtualAssistanceModal from '../../components/member/virtual-assistant';
 
@@ -13,7 +13,7 @@ const HomeNavbar: FC<TProps> = ({ user }) => {
   const [modal, setModal] = useState(false);
 
   const onClickLogout = async () => {
-    await axios.delete('/api/auth');
+    await ajax.delete('/api/auth');
     location.reload();
   }
 

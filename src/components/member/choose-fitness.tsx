@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { useAlert } from 'react-alert';
 import { Card, CardBody, Col, CardTitle, CardImg, CardImgOverlay } from 'reactstrap';
+import { ajax } from '~/helpers/ajax';
 import { IFitness, IUser } from '~/types';
 
 const ChooseFitness: FC = () => {
@@ -10,7 +11,7 @@ const ChooseFitness: FC = () => {
   
   const fetchFitnessTypes = useCallback(async () => {
     try {
-      const {data: {fitness}} = await axios.get('/api/fitness');
+      const {data: {fitness}} = await ajax.get('/api/fitness');
   
       setFitnessTypes(fitness);
     } catch (error) {
@@ -24,7 +25,7 @@ const ChooseFitness: FC = () => {
 
   const fetchAuthUser = useCallback(async () => {
     try {
-      const {data: {user}} = await axios.get('/api/auth');
+      const {data: {user}} = await ajax.get('/api/auth');
   
       if (location.pathname !== `/${user.type}`) location.href = `/${user.type}`;
       else setAuthUser(user);
@@ -36,7 +37,7 @@ const ChooseFitness: FC = () => {
   }, []);
 
   const updateFitness = (fitness_id: string) => async () => {
-    await axios.put(`/api/user/fitness`, { fitness_id });
+    await ajax.put(`/api/user/fitness`, { fitness_id });
 
     location.reload();
   };

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { Container, Card, CardBody, Table, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { ajax } from '~/helpers/ajax';
 import AddFitness from '../../components/admin/add-fitness';
 import FitnessList from '../../components/admin/fitness-list';
 import AdminNavbar from '../../components/admin/navbar';
@@ -25,7 +26,7 @@ const Admin: FC = () => {
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   try {
-    const gg = await axios.get('http://localhost:3000/api/auth', {
+    const gg = await ajax.get('/api/auth', {
       withCredentials: true,
       headers: req.headers
     });

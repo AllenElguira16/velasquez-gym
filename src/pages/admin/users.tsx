@@ -4,10 +4,9 @@ import { GetServerSideProps } from 'next';
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useAlert } from 'react-alert';
 import ReactToPrint from 'react-to-print';
-import { Container, Card, CardBody, Table, Button, Modal, ModalBody, ModalFooter, ModalHeader, CardHeader } from 'reactstrap';
+import { Container, Card, CardBody, Button, CardHeader } from 'reactstrap';
+import { ajax } from '~/helpers/ajax';
 import { IUser } from '~/types';
-import AddFitness from '../../components/admin/add-fitness';
-import FitnessList from '../../components/admin/fitness-list';
 import AdminNavbar from '../../components/admin/navbar';
 import UserList from '../../components/admin/user-list';
 
@@ -38,13 +37,6 @@ const Admin: FC = () => {
             membership: user.fitness?.type || '',
           };
         })
-        // [
-        //   {
-        //     username: ,
-        //     paid: weekly.totalIncome,
-        //     membership: weekly.totalIncome,
-        //   },
-        // ],
       },
     ];
 
@@ -102,7 +94,7 @@ const Admin: FC = () => {
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   try {
-    await axios.get('http://localhost:3000/api/auth', {
+    await ajax.get('/api/auth', {
       withCredentials: true,
       headers: req.headers
     });

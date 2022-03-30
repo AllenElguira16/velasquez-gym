@@ -8,11 +8,6 @@ import 'react-quill/dist/quill.snow.css';
 import '../assets/css/index.scss';
 import { Alert, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
-// if (typeof window !== 'undefined') {
-//   axios.defaults.baseURL = 'http://'+ location.hostname +':8000';
-//   axios.defaults.withCredentials = true;
-// }
-
 // the style contains only the margin given as offset
 // options contains all alert given options
 // message is the alert message
@@ -25,23 +20,6 @@ const AlertTemplate = ({ style, options, message, close }: AlertComponentPropsWi
     >
       {message}
     </Alert>
-    {/* <Modal
-      backdrop={true}
-      centered
-      toggle={close}
-    >
-      <ModalHeader toggle={close}>
-        {options.type}
-      </ModalHeader>
-      <ModalBody>
-        {message}
-      </ModalBody>
-      <ModalFooter>
-        <Button onClick={close}>
-          Close
-        </Button>
-      </ModalFooter>
-    </Modal> */}
   </div>
 )
 

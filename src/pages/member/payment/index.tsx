@@ -50,9 +50,9 @@ const Payment = () => {
         }
       ],
       "redirectUrl": {
-        "success": "http://localhost:3000/member/payment/success?ref_id=" + referenceId,
-        "failure": "http://localhost:3000/member/payment/error",
-        "cancel": "http://localhost:3000/member/payment/error"
+        "success": `${location.origin}/member/payment/success?ref_id=${referenceId}`,
+        "failure": `${location.origin}/member/payment/error`,
+        "cancel": `${location.origin}/member/payment/error`
       },
       "requestReferenceNumber": referenceId.toString(),
       "metadata": {}

@@ -7,6 +7,7 @@ import ReactToPrint from 'react-to-print';
 import xlsx, { IJsonSheet } from 'json-as-xlsx';
 
 import AdminNavbar from '../../components/admin/navbar';
+import { ajax } from '~/helpers/ajax';
 
 const Admin: FC = () => {
   const cardBodyRef = useRef(null);
@@ -19,7 +20,7 @@ const Admin: FC = () => {
     const weekStart = moment().clone().startOf('week').format('YYYY-MM-DD');
     const weekEnd = moment().clone().endOf('week').format('YYYY-MM-DD');
 
-    const { data } = await axios.get(`http://localhost:3000/api/summary?range=${weekStart},${weekEnd}`);
+    const { data } = await ajax.get(`/api/summary?range=${weekStart},${weekEnd}`);
     setWeekly({
       totalIncome: data.content.totalIncome,
       totalUsers: data.content.totalUsers,
@@ -30,7 +31,7 @@ const Admin: FC = () => {
     const weekStart = moment().clone().startOf('month').format('YYYY-MM-DD');
     const weekEnd = moment().clone().endOf('month').format('YYYY-MM-DD');
 
-    const { data } = await axios.get(`http://localhost:3000/api/summary?range=${weekStart},${weekEnd}`);
+    const { data } = await ajax.get(`/api/summary?range=${weekStart},${weekEnd}`);
     setMonthly({
       totalIncome: data.content.totalIncome,
       totalUsers: data.content.totalUsers,
@@ -41,7 +42,7 @@ const Admin: FC = () => {
     const weekStart = moment().clone().startOf('year').format('YYYY-MM-DD');
     const weekEnd = moment().clone().endOf('year').format('YYYY-MM-DD');
 
-    const { data } = await axios.get(`http://localhost:3000/api/summary?range=${weekStart},${weekEnd}`);
+    const { data } = await ajax.get(`/api/summary?range=${weekStart},${weekEnd}`);
     setYearly({
       totalIncome: data.content.totalIncome,
       totalUsers: data.content.totalUsers,
@@ -194,7 +195,7 @@ const Admin: FC = () => {
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   try {
-    await axios.get('http://localhost:3000/api/auth', {
+    await ajax.get('/api/auth', {
       withCredentials: true,
       headers: req.headers
     });
