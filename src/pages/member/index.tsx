@@ -2,6 +2,7 @@ import axios from 'axios';
 import { GetServerSideProps, NextPage } from 'next';
 import React from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
+import { IUser } from '~/types';
 import Calendar from '../../components/member/calendar';
 import ChooseFitness from '../../components/member/choose-fitness';
 

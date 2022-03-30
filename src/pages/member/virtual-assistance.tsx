@@ -4,6 +4,7 @@ import { Card, CardBody, CardHeader, CardImg, CardImgOverlay, CardTitle, Col, Co
 import VirtualAssistanceModal from '../../components/member/virtual-assistant';
 
 import HomeNavbar from '../../components/member/navbar';
+import { IUser } from '~/types';
 
 const Index: FC = () => {
   const [modal, setModal] = useState(false);
@@ -35,7 +36,7 @@ const Index: FC = () => {
         <Card className="mt-4">
           <CardBody>
             {/* if on first login */}
-            {(authUser && authUser.fitness.virtualAssistance) && (
+            {(authUser && authUser.fitness?.virtualAssistance) && (
               <VirtualAssistanceModal fitness={authUser.fitness} isModalOpen={modal} toggleModal={() => setModal(!modal)} />
             )}
           </CardBody>
