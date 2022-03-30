@@ -55,5 +55,5 @@ export const totalIncome = async (rangeFrom: string, rangeTo: string) => {
     }
   });
 
-  return memberships.reduce((prevAmount, currentMembership) => currentMembership.paid ? prevAmount + 200 : prevAmount, 0);
+  return memberships.reduce((prevAmount, currentMembership) => currentMembership.paid ? prevAmount + 500 : prevAmount, 0);
 }
