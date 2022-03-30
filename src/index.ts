@@ -16,7 +16,7 @@ require('dotenv').config();
 
 (async () => {
   const host = 'localhost';
-  const port = 3000;
+  const port = parseInt(process.env.PORT || "3000", 10);
   const dev = process.env.APP_ENV === 'development'; // Tell next js to compile as dev or prod
   const app = next({ dev });
   const handle = app.getRequestHandler();
