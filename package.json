@@ -6,7 +6,7 @@
     "lint": "next lint",
     "build": "cross-env APP_ENV=production next build",
     "dev": "cross-env APP_ENV=development ts-node-dev --project tsconfig.server.json -r tsconfig-paths/register --ignore-watch \".next\" ./src/index.ts",
-    "start": "cross-env APP_ENV=production ts-node --project tsconfig.server.json -r tsconfig-paths/register ./src/index.ts",
+    "start": "cross-env APP_ENV=production ts-node --project tsconfig.server.json -r tsconfig-paths/register ./src/index.ts -p $PORT",
     "seed:config": "ts-node --project tsconfig.server.json -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js config",
     "seed:run": "ts-node --project tsconfig.server.json -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed"
   },

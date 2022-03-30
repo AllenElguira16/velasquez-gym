@@ -7,8 +7,6 @@ import next from 'next';
 import session from 'express-session';
 
 const SQLiteStore = require('connect-sqlite3')(session);
-// import cors from 'cors';
-// import helmet from 'helmet'
 
 import registerController from './helpers/controller';
 
