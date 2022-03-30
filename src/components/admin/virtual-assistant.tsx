@@ -22,7 +22,7 @@ const VirtualAssistance: FC<TProps> = ({ fitness }) => {
   const [virtualAssistanceInput, setVirtualAssistanceInput] = useState(fitness.virtualAssistance);
 
   const saveVirtualAssistance = async () => {
-    await ajax.post(`/api/fitness/${fitness.id}`, {
+    await ajax.put(`/api/fitness/${fitness.id}`, {
       virtualAssistance: virtualAssistanceInput
     });
 
