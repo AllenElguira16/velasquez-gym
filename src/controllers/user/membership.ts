@@ -6,7 +6,7 @@ import { membershipPayment, getMembership } from "~/services/membership-service"
  * 
  * @author Michael Allen Elguira <michael01@simplexi.com.ph>
  */
-export const Get: TController = async (request, response) => {
+export const Get: TController = async (...[,response]) => {
 
   response.status(200).json({
     success: true,

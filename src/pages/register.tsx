@@ -4,16 +4,9 @@ import React, { ChangeEvent, FC, FormEvent, useCallback, useEffect, useState } f
 import { useAlert } from 'react-alert';
 import { Button, Card, CardBody, CardHeader, Col, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 import { ajax } from '~/helpers/ajax';
-import { IUser } from '~/types';
+import { IUser, TFormInput } from '~/types';
 
-type TRegistrationInputForm = {
-  firstname: string;
-  lastname: string;
-  email: string;
-  username: string;
-  password: string;
-  firstLogin?: boolean;
-}
+type TRegistrationInputForm = Omit<TFormInput, 'type'>;
 
 const Index: FC = () => {
   const alert = useAlert();
@@ -22,7 +15,9 @@ const Index: FC = () => {
     lastname: '',
     email: '',
     username: '',
-    password: ''
+    password: '',
+    contactNumber: '',
+    address: ''
   });
 
   const onInputChange = (key: keyof IUser) => (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -46,7 +41,7 @@ const Index: FC = () => {
       }
     }
   }
-  
+
   return (
     <div className="d-flex vh-100">
       <Container className="my-auto">
@@ -73,6 +68,20 @@ const Index: FC = () => {
                       value={inputForm.lastname}
                     />
                   </Col>
+                </FormGroup>
+                <FormGroup>
+                  <Input
+                    placeholder="Contact Number"
+                    onChange={onInputChange('contactNumber')}
+                    value={inputForm.contactNumber}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Input
+                    placeholder="Address"
+                    onChange={onInputChange('address')}
+                    value={inputForm.address}
+                  />
                 </FormGroup>
                 <FormGroup>
                   <Input
@@ -115,7 +124,7 @@ const Index: FC = () => {
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   try {
     let destination = '';
-    const {data: {user}} = await ajax.get('/api/auth', {
+    const { data: { user } } = await ajax.get('/api/auth', {
       withCredentials: true,
       headers: req.headers
     });
@@ -130,7 +139,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     });
     res.end();
   } catch (error) {
-    if (axios.isAxiosError(error)) {}
+    if (axios.isAxiosError(error)) { } //NOSONAR
   }
 
   return {

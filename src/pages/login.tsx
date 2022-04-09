@@ -101,7 +101,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     });
     res.end();
   } catch (error) {
-    if (axios.isAxiosError(error)) {}
+    if (axios.isAxiosError(error)) {} // NOSONAR
   }
 
   return {

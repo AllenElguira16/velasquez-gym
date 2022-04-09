@@ -1,5 +1,5 @@
 import { ResponseError } from '~/helpers/response-error';
-import { getUserById } from '~/services/user-service';
+import { getUserById, logoutUser } from '~/services/user-service';
 import { TController } from '~/types';
 
 /**
@@ -8,7 +8,7 @@ import { TController } from '~/types';
  * @author Michael Allen Elguira <AllenElguira16@gmail.com>
  */
 export const Get: TController = async (request, response) => {
-  const {userId} = request.session; 
+  const { userId } = request.session;
 
   if (!userId) {
     throw new ResponseError(404, 'User not authenticated');
@@ -28,12 +28,16 @@ export const Get: TController = async (request, response) => {
  */
 export const Delete: TController = async (request, response) => {
 
-  request.session.destroy((err) => {
-    console.log(err);
-  });
+  if (request.session.userId) {
+    logoutUser(request.session.userId);
 
-  response.status(200).json({
-    success: true,
-    status: 200
-  });
+    request.session.destroy((err) => {
+      console.log(err);
+    });
+
+    response.status(200).json({
+      success: true,
+      status: 200
+    });
+  }
 }

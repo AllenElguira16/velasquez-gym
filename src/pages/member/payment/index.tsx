@@ -3,9 +3,11 @@ import { Button, Card, Container } from 'reactstrap';
 import paymaya from 'paymaya-js-sdk';
 
 import HomeNavbar from '../../../components/member/navbar';
+import { GetServerSideProps } from 'next';
+import { ajax } from '~/helpers/ajax';
+import axios from 'axios';
 
 const Payment = () => {
-  const paymayaForm = useRef<HTMLDivElement>(null);
   const referenceId = Math.floor(100000000 + Math.random() * 900000000);
 
   const submitPayment = async () => {
@@ -81,5 +83,25 @@ const Payment = () => {
     </div>
   );
 };
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  try {
+    await ajax.get('/api/auth', {
+      withCredentials: true,
+      headers: req.headers
+    });
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      res.writeHead(302, { // or 301
+        Location: '/login',
+      });
+      res.end();
+    }
+  }
+
+  return {
+    props: {}
+  }
+}
 
 export default Payment;

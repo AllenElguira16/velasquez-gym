@@ -15,6 +15,12 @@ export class UserEntity implements IUser {
   @Column('text')
   lastname!: string;
 
+  @Column('text')
+  contactNumber!: string;
+
+  @Column('text')
+  address!: string;
+
   @Column('text', { unique: true })
   email!: string;
 
@@ -26,6 +32,9 @@ export class UserEntity implements IUser {
 
   @Column('text')
   type!: IUser['type'];
+  
+  @Column('text', { default: 'offline' })
+  status: 'online' | 'offline' = 'offline';
 
   @ManyToOne(() => FitnessEntity, fitnessEntity => fitnessEntity.id, {
     onDelete: 'CASCADE'

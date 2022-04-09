@@ -4,9 +4,12 @@ export interface IUser {
   id: string;
   firstname: string;
   lastname: string;
+  contactNumber: string;
+  address: string;
   email: string;
   username: string;
   password: string;
+  status: 'online'|'offline';
   type: 'member'|'admin';
   fitness?: IFitness|null;
   attendances?: IAttendance[]
@@ -55,3 +58,5 @@ declare module 'express-session' {
     userId: string;
   }
 }
+
+export type TFormInput = Omit<IUser,'id'|'fitness'|'attendances'|'memberships'|'createdAt'|'updatedAt'|'status'>;

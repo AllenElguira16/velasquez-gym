@@ -2,18 +2,20 @@ import { Between, getRepository, Not } from "typeorm";
 
 import { ResponseError } from "~/helpers/response-error";
 import { UserEntity } from "~/entities/user-entity";
-import { IUser } from "~/types";
+import { IUser, TFormInput } from "~/types";
 
 const userRepository = getRepository(UserEntity);
 
 export const registerAdmin = async () => {
 
-  const user: Omit<IUser,'id'|'fitness'|'attendances'|'createdAt'|'updatedAt'> = {
+  const user: TFormInput = {
     firstname: 'admin',
     lastname: 'admin',
     username: 'admin',
     email: 'admin@admin.com',
     password: 'admin',
+    contactNumber: '09xxxxxxx',
+    address: 'admin-land',
     type: 'admin'
   };
 
@@ -30,7 +32,7 @@ export const registerAdmin = async () => {
   } 
 }
 
-export const registerUser = async (user: Omit<IUser, 'id'|'fitness'|'attendances'|'createdAt'|'updatedAt'>) => {
+export const registerUser = async (user: TFormInput & { type: string }) => {
 
   const countUserByUsername = await userRepository.count({ where: { username: user.username } });
   const countUserByEmail = await userRepository.count({ where: { email: user.email } });
@@ -56,7 +58,24 @@ export const loginUser = async ({username, password}: Pick<IUser, 'username'|'pa
   if (!user)
     throw new ResponseError(404, 'Incorrect Username or Password');
 
+  await userRepository.save({
+    ...user,
+    status: 'online'
+  });
+
   return user.id;
+}
+
+export const logoutUser = async (userId: string) => {
+  const user = await userRepository.findOne(userId);
+
+  if (!user)
+    throw new ResponseError(404, 'Incorrect Username or Password');
+
+  await userRepository.save({
+    ...user,
+    status: 'offline'
+  });
 }
 
 export const getUsers = async () => {

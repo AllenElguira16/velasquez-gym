@@ -146,12 +146,12 @@ const Admin: FC = () => {
                 <h6>This Week</h6>
                 <tbody>
                   <tr>
-                    <th>Total Members</th>
-                    <td>{weekly.totalUsers}</td>
+                    <th className="w-75">Total Members</th>
+                    <td className="w-25">{weekly.totalUsers}</td>
                   </tr>
                   <tr>
-                    <th>Total Income This Month</th>
-                    <td>{weekly.totalIncome}</td>
+                    <th className="w-75">Total Income This Month</th>
+                    <td className="w-25">{weekly.totalIncome}</td>
                   </tr>
                 </tbody>
               </Table>
@@ -161,12 +161,12 @@ const Admin: FC = () => {
                 <h6>This Month</h6>
                 <tbody>
                   <tr>
-                    <th>Total Members</th>
-                    <td>{monthly.totalUsers}</td>
+                    <th className="w-75">Total Members</th>
+                    <td className="w-25">{monthly.totalUsers}</td>
                   </tr>
                   <tr>
-                    <th>Total Income This Month</th>
-                    <td>{monthly.totalIncome}</td>
+                    <th className="w-75">Total Income This Month</th>
+                    <td className="w-25">{monthly.totalIncome}</td>
                   </tr>
                 </tbody>
               </Table>
@@ -176,12 +176,12 @@ const Admin: FC = () => {
                 <h6>This Year</h6>
                 <tbody>
                   <tr>
-                    <th>Total Members</th>
-                    <td>{yearly.totalUsers}</td>
+                    <th className="w-75">Total Members</th>
+                    <td className="w-25">{yearly.totalUsers}</td>
                   </tr>
                   <tr>
-                    <th>Total Income This Month</th>
-                    <td>{yearly.totalIncome}</td>
+                    <th className="w-75">Total Income This Month</th>
+                    <td className="w-25">{yearly.totalIncome}</td>
                   </tr>
                 </tbody>
               </Table>
@@ -193,7 +193,7 @@ const Admin: FC = () => {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   try {
     await ajax.get('/api/auth', {
       withCredentials: true,
@@ -204,14 +204,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
       props: {}
     }
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      res.writeHead(302, { // or 301
-        Location: '/login',
-      });
-      res.end();
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/'
+      }
     }
-
-    return { props: {} }
   }
 }
 

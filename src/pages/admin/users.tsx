@@ -92,25 +92,24 @@ const Admin: FC = () => {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   try {
-    await ajax.get('/api/auth', {
+    const gg = await ajax.get('/api/auth', {
       withCredentials: true,
       headers: req.headers
     });
+    console.log(gg);
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/'
-        }
-      }
+      res.writeHead(302, { // or 301
+        Location: '/login',
+      });
+      res.end();
     }
-  } finally {
-    return {
-      props: {}
-    }
+  }
+
+  return {
+    props: {}
   }
 }
 
