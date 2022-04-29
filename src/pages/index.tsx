@@ -1,9 +1,9 @@
-import axios from 'axios';
-import { GetServerSideProps } from 'next';
-import React, { FC, useCallback, useEffect } from 'react';
-import { Container, Card, CardBody } from 'reactstrap';
-import { ajax } from '~/helpers/ajax';
-import AdminNavbar from '../components/admin/navbar';
+import axios from "axios";
+import { GetServerSideProps } from "next";
+import React, { FC, useCallback, useEffect } from "react";
+import { Container, Card, CardBody } from "reactstrap";
+import { ajax } from "~/helpers/ajax";
+import AdminNavbar from "../components/admin/navbar";
 
 const Index: FC = () => {
   return (
@@ -12,43 +12,43 @@ const Index: FC = () => {
         <AdminNavbar />
 
         <Card className="mt-4">
-          <CardBody>
-            Redirecting
-          </CardBody>
+          <CardBody>Redirecting</CardBody>
         </Card>
       </Container>
     </>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({req}) => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   try {
-    const {data: {user}} = await ajax.get('/api/auth', {
+    const {
+      data: { user },
+    } = await ajax.get("/api/auth", {
       withCredentials: true,
-      headers: req.headers
+      headers: req.headers,
     });
 
-    let destination = '';
+    let destination = "";
 
     if (location.pathname !== `/${user.type}`) {
-      if (user.type === 'admin') destination = `/admin/summary`
+      if (user.type === "admin") destination = `/admin/summary`;
       else destination = `/${user.type}`;
     }
 
     return {
       redirect: {
         permanent: false,
-        destination
-      }
-    }
+        destination,
+      },
+    };
   } catch (error) {
     return {
       redirect: {
         permanent: false,
-        destination: '/login'
-      }
-    }
+        destination: "/login",
+      },
+    };
   }
-}
+};
 
 export default Index;

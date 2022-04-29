@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "next lint",
     "build": "cross-env APP_ENV=production next build",
-    "dev": "cross-env APP_ENV=development ts-node-dev --project tsconfig.server.json -r tsconfig-paths/register --ignore-watch \".next\" ./src/index.ts",
+    "dev": "cross-env APP_ENV=development ts-node-dev --project tsconfig.server.json -r tsconfig-paths/register --ignore-watch .next ./src/index.ts",
     "start": "cross-env APP_ENV=production ts-node --project tsconfig.server.json -r tsconfig-paths/register ./src/index.ts -p $PORT",
     "seed:config": "ts-node --project tsconfig.server.json -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js config",
     "seed:run": "ts-node --project tsconfig.server.json -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed"
@@ -27,6 +27,7 @@
     "autoprefixer": "^10.3.6",
     "axios": "0.21.1",
     "bootstrap": "5.1",
+    "chart.js": "^3.7.1",
     "connect-sqlite3": "^0.9.13",
     "cookie-parser": "^1.4.6",
     "cross-env": "^7.0.3",
@@ -44,7 +45,9 @@
     "paymaya-js-sdk": "^2.0.1",
     "react": "17.0.2",
     "react-alert": "^7.0.3",
+    "react-chartjs-2": "^4.1.0",
     "react-dom": "17.0.2",
+    "react-hook-form": "^7.30.0",
     "react-quill": "2.0.0-beta.3",
     "react-to-print": "^2.14.4",
     "reactstrap": "^9.0.0",

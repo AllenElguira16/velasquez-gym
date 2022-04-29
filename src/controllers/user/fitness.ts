@@ -9,8 +9,9 @@ import { updateUser } from "~/services/user-service";
  * @param response 
  */
 export const Put: TController = async (request, response) => {
+  if (!request.session.userId) return;
 
-  await updateUser(request.session.userId as string, { fitness: await getFitnessById(request.body.fitness_id) })
+  await updateUser(request.session.userId, { fitness: await getFitnessById(request.body.fitness_id) })
 
   response.status(200).json({
     success: true,

@@ -1,14 +1,13 @@
-import axios from 'axios';
-import React, { useCallback, useEffect } from 'react';
-import { Card, Container } from 'reactstrap';
-import HomeNavbar from '../../../components/member/navbar';
-import { ajax } from '~/helpers/ajax';
+import axios from "axios";
+import React, { useCallback, useEffect } from "react";
+import { Card, Container } from "reactstrap";
+import HomeNavbar from "../../../components/member/navbar";
+import { ajax } from "~/helpers/ajax";
 
 const Payment = () => {
-  
   const setPayment = useCallback(async () => {
     try {
-      await ajax.post('/api/user/membership');
+      await ajax.post("/api/user/membership");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         alert(error.response?.data.message);
@@ -31,7 +30,6 @@ const Payment = () => {
         {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
         <a href="/member">Payment Success go to homepage</a>
       </Card>
-
     </Container>
   );
 };

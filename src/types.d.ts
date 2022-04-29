@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from "express";
 
 export interface IUser {
   id: string;
@@ -9,10 +9,10 @@ export interface IUser {
   email: string;
   username: string;
   password: string;
-  status: 'online'|'offline';
-  type: 'member'|'admin';
-  fitness?: IFitness|null;
-  attendances?: IAttendance[]
+  status: "online" | "offline";
+  type: "member" | "admin";
+  fitness?: IFitness | null;
+  attendances?: IAttendance[];
   memberships?: IMembership[];
   createdAt: Date;
   updatedAt: Date;
@@ -21,7 +21,7 @@ export interface IUser {
 export interface IFitness {
   id: string;
   type: string;
-  img: string|null;
+  img: string | null;
   virtualAssistance?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -38,7 +38,14 @@ export interface IMembership {
 export interface IAttendance {
   id: string;
   user: IUser;
-  type: 'check-in'|'check-out'
+  type: "check-in" | "check-out";
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface ILog {
+  id: string;
+  message: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -46,17 +53,32 @@ export interface IAttendance {
 /**
  * Types for Controller function
  */
-export type TController = (oRequest: Request, oResponse: Response, oNext: NextFunction) => Promise<void> | void;
+export type TController = (
+  oRequest: Request,
+  oResponse: Response,
+  oNext: NextFunction
+) => Promise<void> | void;
 
 /**
  * Types for Middleware function
  */
-export type TMiddleware = (next: (oRequest: Request, oResponse: Response) => Promise<void> | void) => TController
+export type TMiddleware = (
+  next: (oRequest: Request, oResponse: Response) => Promise<void> | void
+) => TController;
 
-declare module 'express-session' {
+declare module "express-session" {
   interface SessionData {
     userId: string;
   }
 }
 
-export type TFormInput = Omit<IUser,'id'|'fitness'|'attendances'|'memberships'|'createdAt'|'updatedAt'|'status'>;
+export type TFormInput = Omit<
+  IUser,
+  | "id"
+  | "fitness"
+  | "attendances"
+  | "memberships"
+  | "createdAt"
+  | "updatedAt"
+  | "status"
+>;

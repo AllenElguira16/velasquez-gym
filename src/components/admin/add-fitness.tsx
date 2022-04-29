@@ -5,14 +5,14 @@ import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Input, ModalFoo
 import { IFitness } from '~/types';
 import { getBase64 } from '../../helpers/get-base64';
 
-type TFitnessInputForm = Omit<IFitness,'id'>;
+type TFitnessInputForm = Omit<IFitness,'id'|'virtualAssistance'|'createdAt'|'updatedAt'>;
 
 const AddFitness = () => {
   const alert = useAlert();
   const [isFitnessModalOpen, setFitnessModalOpen] = useState(false);
   const toggleModal = () => setFitnessModalOpen(!isFitnessModalOpen);
 
-  const [inputForm, setInputForm] = useState<Omit<IFitness,'id'|'virtualAssistance'|'createdAt'|'updatedAt'>>({
+  const [inputForm, setInputForm] = useState<TFitnessInputForm>({
     type: '',
     img: ''
   });

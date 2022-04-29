@@ -1,46 +1,119 @@
-import axios from 'axios';
-import { GetServerSideProps } from 'next';
-import React, { ChangeEvent, FC, FormEvent, useCallback, useEffect, useState } from 'react';
-import { useAlert } from 'react-alert';
-import { Button, Card, CardBody, CardHeader, Col, Container, Form, FormGroup, Input, Label } from 'reactstrap';
-import { ajax } from '~/helpers/ajax';
-import { IUser, TFormInput } from '~/types';
+import axios from "axios";
+import { GetServerSideProps } from "next";
+import Link from "next/link";
+import React, { FC } from "react";
+import { useAlert } from "react-alert";
+import { SubmitHandler, useForm } from "react-hook-form";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Col,
+  Container,
+  Form,
+  FormFeedback,
+  FormGroup,
+  Input,
+} from "reactstrap";
+import { ajax } from "~/helpers/ajax";
+import { TFormInput } from "~/types";
 
-type TRegistrationInputForm = Omit<TFormInput, 'type'>;
+type TRegistrationInputForm = Omit<TFormInput, "type"> & {
+  confirmPassword: TFormInput["password"];
+};
 
 const Index: FC = () => {
   const alert = useAlert();
-  const [inputForm, setInputForm] = useState<TRegistrationInputForm>({
-    firstname: '',
-    lastname: '',
-    email: '',
-    username: '',
-    password: '',
-    contactNumber: '',
-    address: ''
-  });
+  const {
+    watch,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TRegistrationInputForm>();
 
-  const onInputChange = (key: keyof IUser) => (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setInputForm({
-      ...inputForm,
-      [key]: event.currentTarget.value
-    });
-  };
-
-  const onSubmitRegister = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const onSubmitRegister: SubmitHandler<TRegistrationInputForm> = async (
+    inputFormData,
+    event
+  ) => {
+    event?.preventDefault();
 
     try {
-      await ajax.post('/api/auth/register', inputForm);
-
-      alert.success('Registration Complete');
-      location.href = '/login';
+      await ajax.post("/api/auth/register", inputFormData);
+      alert.success("Registration Complete");
+      location.href = "/login";
     } catch (error) {
       if (axios.isAxiosError(error)) {
         alert.error(error.response?.data.message);
       }
     }
-  }
+  };
+
+  const { ref: firstnameRef, ...firstnameRegister } = register("firstname", {
+    required: "Firstname is Required",
+    minLength: {
+      value: 2,
+      message: "Username must atleast have 2 characters",
+    },
+  });
+
+  const { ref: lastnameRef, ...lastnameRegister } = register("lastname", {
+    required: "Last Name is Required",
+    minLength: {
+      value: 2,
+      message: "Last Name must atleast have 2 characters",
+    },
+  });
+
+  const { ref: contactRef, ...contactRegister } = register("contactNumber", {
+    required: "Contact Number is Required",
+    validate(value) {
+      return (
+        /((^(\+)(\d){12}$)|(^\d{11}$))/.test(value) || "Incorrect phone number"
+      );
+    },
+  });
+
+  const { ref: addressRef, ...addressRegister } = register("address", {
+    required: true,
+  });
+
+  const { ref: emailRef, ...emailRegister } = register("email", {
+    required: "Field is Required",
+    validate(value) {
+      return (
+        /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+([^<>()\.,;:\s@\"]{2,}|[\d\.]+))$/.test(
+          value
+        ) || "Invalid E-Mail Format"
+      );
+    },
+  });
+
+  const { ref: usernameRef, ...usernameRegister } = register("username", {
+    required: "Field is Required",
+    minLength: {
+      value: 8,
+      message: "Username must atleast have 8 characters",
+    },
+  });
+
+  const { ref: passwordRef, ...passwordRegister } = register("password", {
+    required: "Field is Required",
+    minLength: {
+      value: 8,
+      message: "Password must atleast have 8 characters",
+    },
+  });
+
+  const { ref: confirmPasswordRef, ...confirmPasswordRegister } = register(
+    "confirmPassword",
+    {
+      required: "Field is Required",
+      validate(value) {
+        return value === watch("password") || "Password doesn't match";
+      },
+    }
+  );
 
   return (
     <div className="d-flex vh-100">
@@ -51,64 +124,109 @@ const Index: FC = () => {
               <h1>Register</h1>
             </CardHeader>
             <CardBody>
-              <Form onSubmit={onSubmitRegister}>
+              <Form
+                onSubmit={handleSubmit(onSubmitRegister)}
+                autoComplete="off"
+              >
                 <FormGroup row>
                   <Col md={6}>
-
                     <Input
                       placeholder="First Name"
-                      onChange={onInputChange('firstname')}
-                      value={inputForm.firstname}
+                      innerRef={firstnameRef}
+                      invalid={!!errors.firstname}
+                      {...firstnameRegister}
                     />
+                    {errors.firstname && (
+                      <FormFeedback>{errors.firstname.message}</FormFeedback>
+                    )}
                   </Col>
                   <Col md={6}>
                     <Input
                       placeholder="Last Name"
-                      onChange={onInputChange('lastname')}
-                      value={inputForm.lastname}
+                      innerRef={lastnameRef}
+                      invalid={!!errors.lastname}
+                      {...lastnameRegister}
                     />
+                    {errors.lastname && (
+                      <FormFeedback>{errors.lastname.message}</FormFeedback>
+                    )}
+                  </Col>
+                </FormGroup>
+                <FormGroup>
+                  <Input
+                    placeholder="E-Mail"
+                    innerRef={emailRef}
+                    {...emailRegister}
+                    invalid={!!errors.email}
+                  />
+                  {errors.email && (
+                    <FormFeedback>{errors.email.message}</FormFeedback>
+                  )}
+                </FormGroup>
+                <FormGroup>
+                  <Input
+                    placeholder="Username"
+                    innerRef={usernameRef}
+                    {...usernameRegister}
+                    invalid={!!errors.username}
+                  />
+                  {errors.username && (
+                    <FormFeedback>{errors.username.message}</FormFeedback>
+                  )}
+                </FormGroup>
+                <FormGroup row>
+                  <Col md={6}>
+                    <Input
+                      type="password"
+                      placeholder="Password"
+                      innerRef={passwordRef}
+                      {...passwordRegister}
+                      invalid={!!errors.password}
+                    />
+                    {errors.password && (
+                      <FormFeedback>{errors.password.message}</FormFeedback>
+                    )}
+                  </Col>
+                  <Col md={6}>
+                    <Input
+                      type="password"
+                      placeholder="Password"
+                      innerRef={confirmPasswordRef}
+                      {...confirmPasswordRegister}
+                      invalid={!!errors.confirmPassword}
+                    />
+                    {errors.confirmPassword && (
+                      <FormFeedback>
+                        {errors.confirmPassword.message}
+                      </FormFeedback>
+                    )}
                   </Col>
                 </FormGroup>
                 <FormGroup>
                   <Input
                     placeholder="Contact Number"
-                    onChange={onInputChange('contactNumber')}
-                    value={inputForm.contactNumber}
+                    innerRef={contactRef}
+                    {...contactRegister}
+                    invalid={!!errors.contactNumber}
                   />
+                  {errors.contactNumber && (
+                    <FormFeedback>{errors.contactNumber.message}</FormFeedback>
+                  )}
                 </FormGroup>
                 <FormGroup>
                   <Input
                     placeholder="Address"
-                    onChange={onInputChange('address')}
-                    value={inputForm.address}
+                    innerRef={addressRef}
+                    {...addressRegister}
+                    invalid={!!errors.address}
                   />
-                </FormGroup>
-                <FormGroup>
-                  <Input
-                    placeholder="E-mail"
-                    onChange={onInputChange('email')}
-                    value={inputForm.email}
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Input
-                    placeholder="Username"
-                    onChange={onInputChange('username')}
-                    value={inputForm.username}
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Input
-                    type="password"
-                    placeholder="Password"
-                    onChange={onInputChange('password')}
-                    value={inputForm.password}
-                  />
+                  {errors.address && (
+                    <FormFeedback>{errors.address.message}</FormFeedback>
+                  )}
                 </FormGroup>
                 <FormGroup>
                   <div className="d-flex justify-content-between">
-                    {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-                    <a href="/login">Login</a>
+                    <Link href="/login">Login</Link>
                     <Button color="primary">Register</Button>
                   </div>
                 </FormGroup>
@@ -123,28 +241,33 @@ const Index: FC = () => {
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   try {
-    let destination = '';
-    const { data: { user } } = await ajax.get('/api/auth', {
+    let destination = "";
+    const {
+      data: { user },
+    } = await ajax.get("/api/auth", {
       withCredentials: true,
-      headers: req.headers
+      headers: req.headers,
     });
 
     if (req.url !== `/${user.type}`) {
-      if (user.type === 'admin') destination = `/admin/summary`
+      if (user.type === "admin") destination = `/admin/summary`;
       else destination = `/${user.type}`;
     }
 
-    res.writeHead(302, { // or 301
+    res.writeHead(302, {
+      // or 301
       Location: destination,
     });
     res.end();
-  } catch (error) {
-    if (axios.isAxiosError(error)) { } //NOSONAR
-  }
 
-  return {
-    props: {}
+    return {
+      props: {},
+    };
+  } catch (error) {
+    return {
+      props: {},
+    };
   }
-}
+};
 
 export default Index;

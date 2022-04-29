@@ -7,109 +7,116 @@ import { IUser, TFormInput } from "~/types";
 const userRepository = getRepository(UserEntity);
 
 export const registerAdmin = async () => {
-
   const user: TFormInput = {
-    firstname: 'admin',
-    lastname: 'admin',
-    username: 'admin',
-    email: 'admin@admin.com',
-    password: 'admin',
-    contactNumber: '09xxxxxxx',
-    address: 'admin-land',
-    type: 'admin'
+    firstname: "admin",
+    lastname: "admin",
+    username: "admin",
+    email: "admin@admin.com",
+    password: "admin",
+    contactNumber: "09xxxxxxx",
+    address: "admin-land",
+    type: "admin",
   };
 
-  const countUser = await userRepository.count({ 
-    where: { 
+  const countUser = await userRepository.count({
+    where: {
       username: user.username,
-      password: user.password,
-      type: 'admin'
-    }
+      // password: user.password,
+      type: "admin",
+    },
   });
 
+  console.log(countUser);
   if (countUser === 0) {
     await userRepository.save(user);
-  } 
-}
+  }
+};
 
 export const registerUser = async (user: TFormInput & { type: string }) => {
+  const countUserByUsername = await userRepository.count({
+    where: { username: user.username },
+  });
+  const countUserByEmail = await userRepository.count({
+    where: { email: user.email },
+  });
 
-  const countUserByUsername = await userRepository.count({ where: { username: user.username } });
-  const countUserByEmail = await userRepository.count({ where: { email: user.email } });
+  if (countUserByUsername > 0)
+    throw new ResponseError(404, "E-mail already exists");
 
-  if (countUserByUsername > 0) 
-    throw new ResponseError(404, 'E-mail already exists');
-
-  if (countUserByEmail > 0) 
-    throw new ResponseError(404, 'Username already exists');
+  if (countUserByEmail > 0)
+    throw new ResponseError(404, "Username already exists");
 
   await userRepository.save(user);
-}
+};
 
-export const loginUser = async ({username, password}: Pick<IUser, 'username'|'password'>) => {
+export const loginUser = async ({
+  username,
+  password,
+}: Pick<IUser, "username" | "password">) => {
   const user = await userRepository.findOne({
-    relations: ['fitness'],
+    relations: ["fitness"],
     where: {
       username,
       password,
-    }
+    },
   });
 
-  if (!user)
-    throw new ResponseError(404, 'Incorrect Username or Password');
+  if (!user) throw new ResponseError(404, "Incorrect Username or Password");
 
   await userRepository.save({
     ...user,
-    status: 'online'
+    status: "online",
   });
 
   return user.id;
-}
+};
 
 export const logoutUser = async (userId: string) => {
   const user = await userRepository.findOne(userId);
 
-  if (!user)
-    throw new ResponseError(404, 'Incorrect Username or Password');
+  if (!user) throw new ResponseError(404, "Incorrect Username or Password");
 
   await userRepository.save({
     ...user,
-    status: 'offline'
+    status: "offline",
   });
-}
+};
 
 export const getUsers = async () => {
   return userRepository.find({
-    relations: ['fitness', 'attendances', 'memberships'],
+    relations: ["fitness", "attendances", "memberships"],
     where: {
-      type: Not('admin')
-    }
+      type: Not("admin"),
+    },
   });
-}
+};
 
 export const getUserById = async (id: string) => {
-  return userRepository.findOne({
+  return userRepository.findOneOrFail({
     where: {
-      id: id
+      id: id,
     },
-    relations: ['fitness', 'attendances', 'memberships']
+    relations: ["fitness", "attendances", "memberships"],
   });
-}
+};
 
 export const updateUser = async (id: string, userData: Partial<IUser>) => {
-  const user = await userRepository.findOne(id);
-  
-  await userRepository.save({ 
+  const user = await userRepository.findOneOrFail(id);
+
+  await userRepository.save({
     ...user,
-    ...userData as any
+    ...(userData as any),
   });
-}
+};
 
 export const totalUsers = (rangeFrom: string, rangeTo: string) => {
   return userRepository.count({
     where: {
-      type: Not('admin'),
-      createdAt: Between(rangeFrom, rangeTo)
-    }
+      type: Not("admin"),
+      createdAt: Between(
+        new Date(rangeFrom).toISOString(),
+        new Date(rangeTo).toISOString()
+      ),
+    },
   });
-}
+};

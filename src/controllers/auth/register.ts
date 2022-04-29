@@ -1,6 +1,7 @@
 import { ResponseError } from '~/helpers/response-error';
 import { IUser, TController } from '~/types';
 import { registerUser } from '~/services/user-service';
+import { createLog } from '~/services/log-service';
 
 /**
  * Login with POST request
@@ -15,6 +16,7 @@ export const Post: TController = async (request, response) => {
     throw new ResponseError(401, 'Form Inputs are Required');
 
   await registerUser({ ...user, type: 'member'  } );
+  await createLog(`user with the username "${username}" is created`);
 
   response.status(200).json({
     success: true,

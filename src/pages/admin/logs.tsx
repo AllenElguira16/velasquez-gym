@@ -1,14 +1,25 @@
 import axios from "axios";
 import { GetServerSideProps } from "next";
-import React, { FC } from "react";
-import { Container, Card, CardBody } from "reactstrap";
+import { FC, useCallback, useEffect, useState } from "react";
+import { Card, CardBody, Container } from "reactstrap";
+import LogsList from "~/components/admin/logs-list";
+import AdminNavbar from "~/components/admin/navbar";
 import { ajax } from "~/helpers/ajax";
+import { ILog } from "~/types";
 
-import AddFitness from "../../components/admin/add-fitness";
-import FitnessList from "../../components/admin/fitness-list";
-import AdminNavbar from "../../components/admin/navbar";
+const Logs: FC = () => {
+  const [logs, setLogs] = useState<ILog[]>([]);
 
-const Admin: FC = () => {
+  const fetchLogs = useCallback(async () => {
+    const { data } = await ajax.get("/api/logs");
+
+    setLogs(data.logs);
+  }, []);
+
+  useEffect(() => {
+    fetchLogs();
+  }, [fetchLogs]);
+
   return (
     <div className="d-flex mt-1">
       <Container className="my-auto">
@@ -16,8 +27,7 @@ const Admin: FC = () => {
 
         <Card className="mt-2">
           <CardBody style={{ height: "32rem", overflowY: "scroll" }}>
-            <AddFitness />
-            <FitnessList />
+            <LogsList logs={logs} />
           </CardBody>
         </Card>
       </Container>
@@ -46,4 +56,4 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   };
 };
 
-export default Admin;
+export default Logs;

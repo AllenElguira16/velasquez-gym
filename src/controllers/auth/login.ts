@@ -1,7 +1,7 @@
 import { ResponseError } from '~/helpers/response-error';
-import { TController } from '~/types';
+import { TController, IUser } from '~/types';
 import { loginUser, registerAdmin } from '~/services/user-service';
-import { IUser } from '~/types';
+import { createLog } from '~/services/log-service';
 
 /**
  * Login with POST request
@@ -21,6 +21,8 @@ export const Post: TController = async (request, response) => {
     await registerAdmin();
 
   request.session.userId = await loginUser(user);
+
+  await createLog(`${username} has logged in`);
 
   response.status(200).json({
     success: true,

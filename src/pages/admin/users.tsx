@@ -1,14 +1,14 @@
-import axios from 'axios';
-import xlsx, { IJsonSheet } from 'json-as-xlsx';
-import { GetServerSideProps } from 'next';
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
-import { useAlert } from 'react-alert';
-import ReactToPrint from 'react-to-print';
-import { Container, Card, CardBody, Button, CardHeader } from 'reactstrap';
-import { ajax } from '~/helpers/ajax';
-import { IUser } from '~/types';
-import AdminNavbar from '../../components/admin/navbar';
-import UserList from '../../components/admin/user-list';
+import axios from "axios";
+import xlsx, { IJsonSheet } from "json-as-xlsx";
+import { GetServerSideProps } from "next";
+import React, { FC, useCallback, useEffect, useRef, useState } from "react";
+import { useAlert } from "react-alert";
+import ReactToPrint from "react-to-print";
+import { Container, Card, CardBody, Button, CardHeader } from "reactstrap";
+import { ajax } from "~/helpers/ajax";
+import { IUser } from "~/types";
+import AdminNavbar from "../../components/admin/navbar";
+import UserList from "../../components/admin/user-list";
 
 const Admin: FC = () => {
   const cardBodyRef = useRef(null);
@@ -19,29 +19,29 @@ const Admin: FC = () => {
         columns: [
           {
             label: "Username",
-            value: "username"
+            value: "username",
           },
           {
             label: "Paid",
-            value: "paid"
+            value: "paid",
           },
           {
             label: "Current Membership",
-            value: "membership"
+            value: "membership",
           },
         ],
         content: users.map((user) => {
           return {
             username: user.username,
-            paid: user.memberships !== undefined ? 'Yes' : 'No',
-            membership: user.fitness?.type || '',
+            paid: user.memberships !== undefined ? "Yes" : "No",
+            membership: user.fitness?.type || "",
           };
-        })
+        }),
       },
     ];
 
     let settings = {
-      fileName: `Velasquez Gym - ${(new Date).toDateString()}`,
+      fileName: `Velasquez Gym - ${new Date().toDateString()}`,
       extraLength: 3,
       writeOptions: {},
     };
@@ -51,11 +51,11 @@ const Admin: FC = () => {
 
   const alert = useAlert();
   const [users, setUsers] = useState<IUser[]>([]);
-  
+
   const fetchUsers = useCallback(async () => {
     try {
-      const {data} = await axios.get('/api/user');
-  
+      const { data } = await axios.get("/api/user");
+
       setUsers(data.users);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -67,50 +67,52 @@ const Admin: FC = () => {
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);
-  
+
   return (
     <div className="d-flex vh-100">
       <Container className="my-auto">
         <AdminNavbar />
 
         <Card className="mt-2">
-          <CardHeader className='d-flex gap-2'>
+          <CardHeader className="d-flex gap-2">
             <ReactToPrint
               trigger={() => <Button>Print</Button>}
               content={() => cardBodyRef.current}
             />
-            <Button onClick={toExcel}>
-              Excel
-            </Button>
+            <Button onClick={toExcel}>Excel</Button>
           </CardHeader>
-          <CardBody id="to-print" style={{height: '32rem', overflowY: 'scroll'}} innerRef={cardBodyRef}>
-            <UserList users={users}  />
+          <CardBody
+            id="to-print"
+            style={{ height: "32rem", overflowY: "scroll" }}
+            innerRef={cardBodyRef}
+          >
+            <UserList users={users} />
           </CardBody>
         </Card>
       </Container>
     </div>
   );
-}
+};
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   try {
-    const gg = await ajax.get('/api/auth', {
+    await ajax.get("/api/auth", {
       withCredentials: true,
-      headers: req.headers
+      headers: req.headers,
     });
-    console.log(gg);
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      res.writeHead(302, { // or 301
-        Location: '/login',
+      res.writeHead(302, {
+        // or 301
+        Location: "/login",
       });
       res.end();
     }
   }
 
   return {
-    props: {}
-  }
-}
+    props: {},
+  };
+};
 
 export default Admin;

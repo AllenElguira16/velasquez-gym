@@ -4,35 +4,43 @@ import { IFitness } from "~/types";
 
 const fitnessRepository = getRepository(FitnessEntity);
 
-export const createFitness = async (fitness: Omit<IFitness, 'id'|'createdAt'|'updatedAt'|'virtualAssistance'>) => {
+export const createFitness = async (
+  fitness: Omit<
+    IFitness,
+    "id" | "createdAt" | "updatedAt" | "virtualAssistance"
+  >
+) => {
   await fitnessRepository.save(fitness);
-}
+};
 
 export const getFitness = async () => {
   return fitnessRepository.find();
-}
+};
 
-export const getFitnessById = (fitnessId: IFitness['id']) => {
+export const getFitnessById = (fitnessId: IFitness["id"]) => {
   return fitnessRepository.findOneOrFail({
     where: {
-      id: fitnessId
-    }
+      id: fitnessId,
+    },
   });
-}
+};
 
 export const deleteFitness = async (id: string) => {
   await fitnessRepository.delete(id);
-}
+};
 
-export const updateFitness = async (id: string, newFitnessData: Partial<Omit<IFitness, 'id'>>) => {
+export const updateFitness = async (
+  id: string,
+  newFitnessData: Partial<Omit<IFitness, "id">>
+) => {
   const fitnessToUpdate = await fitnessRepository.findOne({
     where: {
-      id: id
-    }
+      id: id,
+    },
   });
 
   await fitnessRepository.save({
     ...fitnessToUpdate,
-    ...newFitnessData
+    ...newFitnessData,
   });
-}
+};

@@ -1,13 +1,9 @@
-import axios from 'axios';
-import React from 'react';
-import { Card, Container } from 'reactstrap';
-import paymaya from 'paymaya-js-sdk';
+import React from "react";
+import { Card, Container } from "reactstrap";
 
-import HomeNavbar from '../../../components/member/navbar';
+import HomeNavbar from "../../../components/member/navbar";
 
 const Payment = () => {
-  
-
   return (
     <Container className="mt-5">
       <HomeNavbar />
@@ -17,7 +13,6 @@ const Payment = () => {
 
         <p>There is an error occured while doing the payment</p>
       </Card>
-
     </Container>
   );
 };

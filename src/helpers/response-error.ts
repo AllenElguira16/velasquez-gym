@@ -1,6 +1,6 @@
 /**
  * Error Exception Class for Response Errors
- * 
+ *
  * @author Michael Allen Elguira <michael01@simplexi.com.ph>
  */
 export class ResponseError extends Error {
@@ -12,4 +12,3 @@ export class ResponseError extends Error {
     this.code = code;
   }
 }
-
