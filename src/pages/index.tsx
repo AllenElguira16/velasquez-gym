@@ -31,7 +31,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     let destination = "";
 
     if (location.pathname !== `/${user.type}`) {
-      if (user.type === "admin") destination = `/admin/summary`;
+      if (user.type === "admin") destination = `/admin/dashboard`;
       else destination = `/${user.type}`;
     }
 
