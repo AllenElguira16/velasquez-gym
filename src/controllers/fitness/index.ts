@@ -29,7 +29,7 @@ export const Post: TController = async (request, response) => {
   }
 
   await createFitness({ img, type });
-  await createLog(`Admin has Created an Fitness (${type})`);
+  await createLog(`Admin has Created Fitness (${type})`);
 
   response.status(200).json({
     success: true,

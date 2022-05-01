@@ -13,15 +13,15 @@ const Payment = () => {
   const submitPayment = async () => {
     paymaya.createCheckout({
       totalAmount: {
-        value: 1000,
+        value: 500,
         currency: "PHP",
-        details: {
-          discount: 0,
-          serviceCharge: 0,
-          shippingFee: 0,
-          tax: 0,
-          subtotal: 500,
-        },
+        // details: {
+        //   discount: 0,
+        //   serviceCharge: 0,
+        //   shippingFee: 0,
+        //   tax: 0,
+        //   subtotal: 0,
+        // },
       },
       items: [
         {
@@ -31,13 +31,13 @@ const Payment = () => {
           description: "Gym",
           amount: {
             value: 500,
-            details: {
-              discount: 0,
-              serviceCharge: 0,
-              shippingFee: 0,
-              tax: 0,
-              subtotal: 500,
-            },
+            // details: {
+            //   discount: 0,
+            //   serviceCharge: 0,
+            //   shippingFee: 0,
+            //   tax: 0,
+            //   // subtotal: 500,
+            // },
           },
           totalAmount: {
             value: 500,

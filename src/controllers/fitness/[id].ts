@@ -14,7 +14,7 @@ import { createLog } from "~/services/log-service";
 export const Delete: TController = async (request, response) => {
   const { type } = await getFitnessById(request.params.id);
   await deleteFitness(request.params.id);
-  await createLog(`Admin has Deleted an Fitness (${type})`);
+  await createLog(`Admin has Deleted Fitness (${type})`);
 
   response.status(200).json({
     success: true,
@@ -32,7 +32,7 @@ export const Put: TController = async (request, response) => {
   await updateFitness(request.params.id, {
     virtualAssistance: request.body.virtualAssistance,
   });
-  await createLog(`Admin has Updated an Fitness (${type})`);
+  await createLog(`Admin has Updated Fitness (${type})`);
 
   response.status(200).json({
     success: true,

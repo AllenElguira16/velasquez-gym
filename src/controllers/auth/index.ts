@@ -32,7 +32,7 @@ export const Put: TController = async (request, response) => {
 
   if (userId) {
     const { username } = await getUserById(userId);
-    await createLog(`admin has change "${username}" account info`);
+    await createLog(`Admin has change "${username}" account info`);
     await updateUser(userId, request.body);
 
     response.status(200).json({
